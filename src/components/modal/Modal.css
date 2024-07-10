@@ -1,0 +1,31 @@
+/* Modal.css */
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-main {
+    background-color: #E8E8E8;
+    padding: 20px;
+    border-radius: 4px;
+    width: 50vw;
+    height: 70vh;
+    margin: auto;
+}
+
+.display-block {
+    display: flex;
+}
+
+.display-none {
+    display: none;
+}
