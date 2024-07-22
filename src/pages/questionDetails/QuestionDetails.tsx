@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import mockQuestions from '../../assets/mockQuestions';
-import './QuestionDetails.css';
 
 const QuestionDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -41,37 +40,36 @@ const QuestionDetail: React.FC = () => {
     };
 
     return (
-        <div className="container">
-            <h1 className="title">Détails de la Question</h1>
+        <div className="max-w-4xl mx-auto mt-24 mb-24 p-4 bg-gray-200 shadow-md rounded-md">
+            <h1 className="text-3xl font-bold text-center mb-4">Détails de la Question</h1>
             <div>
                 <div className="mb-4">
-                    <label className="label" htmlFor="idQuestionnaire">ID Questionnaire:</label>
-                    <span id="idQuestionnaire" className="value">{question.id_questionnaire}</span>
+                    <label className="block text-gray-600" htmlFor="idQuestionnaire">ID Questionnaire:</label>
+                    <span id="idQuestionnaire" className="block text-lg font-semibold mb-4">{question.id_questionnaire}</span>
                 </div>
                 <div className="mb-4">
-                    <label className="label" htmlFor="texteQuestion">Question:</label>
-                    <input id="texteQuestion" type="text" defaultValue={question.texte_question} className="input" />
+                    <label className="block text-gray-600" htmlFor="texteQuestion">Question:</label>
+                    <input id="texteQuestion" type="text" defaultValue={question.texte_question} className="w-full p-2 border border-gray-300 rounded-md mb-2" />
                 </div>
                 <div className="mb-4">
-                    <label className="label" htmlFor="nombreReponses">Nombre de Réponses:</label>
-                    <span id="nombreReponses" className="value">{question.nbre_reponses}</span>
+                    <label className="block text-gray-600" htmlFor="nombreReponses">Nombre de Réponses:</label>
+                    <span id="nombreReponses" className="block text-lg font-semibold mb-4">{question.nbre_reponses}</span>
                 </div>
                 <div className="mb-4">
-                    <label className="label" htmlFor="Choix">Choix:</label>
+                    <label className="block text-gray-600" htmlFor="Choix">Choix:</label>
                     {question.choix.map((choix, index) => (
-                        <div key={index} className="choice-container">
+                        <div key={index} className="flex mb-2 items-center">
                             <input
                                 type="text"
                                 defaultValue={choix}
-                                className="input"
-                                style={{ display: 'inline-block', width: '85%' }}
+                                className="inline-block w-5/6 p-2 border border-gray-300 rounded-md"
                                 id={`choix-${index}`}
                             />
                             <input
                                 type="checkbox"
                                 checked={selectedAnswers.includes(choix)}
                                 onChange={() => handleCheckboxChange(choix)}
-                                style={{ display: 'inline-block', width: '15%' }}
+                                className="inline-block w-1/6"
                                 id={`checkbox-${index}`}
                                 aria-labelledby={`choix-${index}`}
                             />
@@ -79,23 +77,23 @@ const QuestionDetail: React.FC = () => {
                     ))}
                 </div>
                 <div className="mb-4">
-                    <label className="label" htmlFor="bonneReponse">Bonne Réponse:</label>
+                    <label className="block text-gray-600" htmlFor="bonneReponse">Bonne Réponse:</label>
                     <ul>
                         {selectedAnswers.length > 0 ? (
                             selectedAnswers.map((reponse, index) => (
-                                <li key={index}>
+                                <li key={index} className="list-disc list-inside">
                                     {reponse}
                                 </li>
                             ))
                         ) : (
-                            <p>Aucune réponse sélectionnée</p >
+                            <p className="text-sm text-red-500">Aucune réponse sélectionnée</p>
                         )}
                     </ul>
                 </div>
             </div>
-            <div className="button-container">
-                <button onClick={handleSave} className="button button-save">Sauvegarder</button>
-                <button onClick={handleDelete} className="button button-delete">Supprimer</button>
+            <div className="flex justify-end space-x-4">
+                <button onClick={handleSave} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">Sauvegarder</button>
+                <button onClick={handleDelete} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Supprimer</button>
             </div>
         </div>
     );
