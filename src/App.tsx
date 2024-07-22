@@ -12,25 +12,53 @@ function App() {
   return (
     <div>
       <div>
-        <div className="header">
+        <div className="bg-purple-700 p-4 text-white text-center">
           <h1>QCM</h1>
         </div>
-        <div className="navbar">
-          <ul>
-            <li>
-              <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : ''}>Login</NavLink>
+        <div className="bg-gray-800 overflow-hidden">
+          <ul className='list-none m-0 p-0 flex justify-center'>
+            <li className='float-left'>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                " block text-center px-5 py-3.5 text-decoration-none"
+              }
+            >
+              Login
+            </NavLink>
             </li>
             <li>
-              <NavLink to="/questionnaire" className={({ isActive }) => isActive ? 'active' : ''}>Questionnaire</NavLink>
+              <NavLink 
+                to="/questionnaire" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>Questionnaire</NavLink>
             </li>
             <li>
-              <NavLink to="/new-question" className={({ isActive }) => isActive ? 'active' : ''}>New question</NavLink>
+              <NavLink 
+                to="/new-question" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>New question</NavLink>
             </li>
             <li>
-              <NavLink to="/questions" className={({ isActive }) => isActive ? 'active' : ''}>Question</NavLink>
+              <NavLink 
+                to="/questions" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>Question</NavLink>
             </li>
             <li>
-              <NavLink to="/stagiaires" className={({ isActive }) => isActive ? 'active' : ''}>Stagiaires</NavLink>
+              <NavLink 
+                to="/stagiaires" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>Stagiaires</NavLink>
             </li>
           </ul>
         </div>

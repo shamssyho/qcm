@@ -12,33 +12,32 @@ export default function Questionnaire() {
     const handleCloseModal = () => setShowModal(false);
 
     return (
-        <div className="questionnaire-container">
-            <h2>Questionnaires</h2>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">
+            <h2 className='text-3xl font-bold mb-5'>Questionnaires</h2>
+            <table className='w-full border-collapse'>
                 <thead>
                     <tr>
-                        <th className='questionnaire-intitule'>Intitulé</th>
-                        <th className='questionnaire-description'>Description</th>
-                        <th className='questionnaire-action'>Actions</th>
+                        <th className="p-2 border-b border-gray-600">Intitulé</th>
+                        <th className="p-2 border-b border-gray-600">Description</th>
+                        <th className="p-2 border-b border-gray-600">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {questionnaires.map((question) => (
-                        <tr className="questionnaire-tr" key={question.id}>
-                            <td>{question.title}</td>
-                            <td>{question.description}</td>
-                            <br />
-                            <td className="questionnaire-td-action">
-                                <button onClick={() => alert('Edit ' + question.title)}>✏️</button>
-                                <button onClick={() => alert('Delete ' + question.title)}>🗑️</button>
-                            </td>
-                            <br />
-                        </tr>
+                        <tr className="bg-gray-300 border-b border-gray-400" key={question.id}>
+                        <td className="p-2">{question.title}</td>
+                        <td className="p-2">{question.description}</td>
+                        <br/>
+                        <td className="flex justify-center items-center space-x-1 p-2">
+                            <button onClick={() => alert('Edit ' + question.title)} className="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">✏️</button>
+                            <button onClick={() => alert('Delete ' + question.title)} className="p-2 bg-red-500 text-white rounded hover:bg-red-700">🗑️</button>
+                        </td>
+                    </tr>
                     ))}
                 </tbody>
             </table>
-            <div className='questionnaire-div-btn'>
-                <button className="questionnaire-button" onClick={handleOpenModal}>
+            <div className="mt-4 flex justify-end">
+                <button className="bg-purple-700 text-white p-2 rounded-lg hover:bg-purple-800" onClick={handleOpenModal}>
                     CRÉER UN QUESTIONNAIRE
                 </button>
 
