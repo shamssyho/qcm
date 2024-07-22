@@ -1,6 +1,7 @@
-import type { FormProps } from 'antd';
+import React, { ChangeEvent } from 'react';
 import { Form, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import type { FormProps } from 'antd';
 
 type FieldType = {
     username?: string;
@@ -16,42 +17,44 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
-const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log('Change:', e.target.value);
 };
 
-
-const NewQestioannireForm: React.FC = () => (
+const NewQuestionnaireForm: React.FC = () => (
     <>
-        <h2>New qestionnaire</h2>
+        <h2 className="text-2xl font-bold mb-6">New Questionnaire</h2>
         <Form
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 800 }}
+            className="max-w-xl"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
             <Form.Item<FieldType>
-                label="Intitulé">
-                <Input placeholder="Nom de votre questionnaire"
-                    style={{ border: '1px solid #000', borderRadius: '10px' }} />
+                label="Intitulé"
+                className="border-b-0"
+            >
+                <Input placeholder="Nom de votre questionnaire" className="border border-gray-900 rounded-lg" />
             </Form.Item>
 
             <Form.Item<FieldType>
-                label="Description">
+                label="Description"
+                className="border-b-0"
+            >
                 <TextArea
                     showCount
                     maxLength={1000}
                     onChange={onChange}
                     placeholder="Description de votre questionnaire"
-                    style={{ height: 250, border: '1px solid #000', borderRadius: '10px' }}
+                    className="h-64 border border-gray-900 rounded-lg"
                 />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <button className="questionnaire-button">
+                <button className="bg-purple-700 text-white py-2 px-4 rounded-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">
                     VALIDER
                 </button>
             </Form.Item>
@@ -59,4 +62,4 @@ const NewQestioannireForm: React.FC = () => (
     </>
 );
 
-export default NewQestioannireForm;
+export default NewQuestionnaireForm;
