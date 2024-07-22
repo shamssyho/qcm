@@ -1,4 +1,3 @@
-import "./ListeStagiaires.css"
 import React, { useState } from 'react';
 import mockStagiaires from "../../assets/mockStagiares";
 import { StagiaireI } from "../../interfaces/StagiaireI";
@@ -16,29 +15,30 @@ const ListeStagiaires: React.FC = () => {
     const handleView = (id: number) => {
         navigate(`/stagiaire/${id}`);
     };
+
     return (
-        <div className="container">
-            <h1 className="title">Liste de stagiaires</h1>
-            <table className="stagiaire-table">
-                <thead>
+        <div className="max-w-6xl mx-auto mt-10 p-5 bg-white shadow-lg rounded">
+            <h1 className="text-3xl font-bold text-center mb-10">Liste de stagiaires</h1>
+            <table className="w-full text-sm text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Moyenne</th>
-                        <th>Date de début</th>
-                        <th>Action</th>
+                        <th scope="col" className="py-3 px-6 text-center">Nom</th>
+                        <th scope="col" className="py-3 px-6 text-center">Prénom</th>
+                        <th scope="col" className="py-3 px-6 text-center">Moyenne</th>
+                        <th scope="col" className="py-3 px-6 text-center">Date de début</th>
+                        <th scope="col" className="py-3 px-6 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {stagiaires.map(stagiaire => (
-                        <tr key={stagiaire.id}>
-                            <td>{stagiaire.nom}</td>
-                            <td>{stagiaire.prenom}</td>
-                            <td>{stagiaire.moyenne}</td>
-                            <td>{stagiaire.dateDebut}</td>
-                            <td className="actions-stagiaire">
-                                <button onClick={() => handleView(stagiaire.id)}>Voir</button>
-                                <button onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
+                        <tr key={stagiaire.id} className="border-b">
+                            <td className="py-4 px-6 text-center">{stagiaire.nom}</td>
+                            <td className="py-4 px-6 text-center">{stagiaire.prenom}</td>
+                            <td className="py-4 px-6 text-center">{stagiaire.moyenne}</td>
+                            <td className="py-4 px-6 text-center">{stagiaire.dateDebut}</td>
+                            <td className="py-4 px-6 text-center space-x-2">
+                                <button className="text-blue-600 hover:text-blue-900" onClick={() => handleView(stagiaire.id)}>Voir</button>
+                                <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
                             </td>
                         </tr>
                     ))}
