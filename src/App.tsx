@@ -6,6 +6,7 @@ import ListeQuestions from './pages/listeQuestions/ListeQuestions';
 import QuestionDetail from './pages/questionDetails/QuestionDetails';
 import ListeStagiaires from './pages/listeStagiaires/ListeStagiaires';
 import DetailsStagiaire from './pages/detailsStagiaire/DetailsStagiaire';
+import Dashboard from './pages/dashboard/Dashboard';
 
 function App() {
 
@@ -60,10 +61,19 @@ function App() {
                   " block text-center px-5 py-3.5 text-decoration-none"
               }>Stagiaires</NavLink>
             </li>
+            <li>
+              <NavLink 
+                to="/dashboard" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>Dashboard</NavLink>
+            </li>
           </ul>
         </div>
       </div>
       <Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/new-question" element={<NewQuestion />} />
