@@ -7,4 +7,5 @@ export interface QuestionsI {
     bonne_reponse: number[];
     date_created: string;
     date_modified: string;
+    isMultiple: boolean;
 }
