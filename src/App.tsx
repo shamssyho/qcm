@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Login from "./pages/login/Login";
 import Questionnaire from './pages/questionnaire/Questionnaire';
 import NewQuestion from './pages/newQuestion/NewQuestion';
@@ -14,96 +14,16 @@ import PrivateRoute from './pages/PrivateRoutes';
 import AdminPage from './pages/AdminPage';
 import Unauthorized from './pages/Unauthorized';
 import { AuthProvider } from './services/AuthProvider';
+import Error404 from './pages/Error404';
+import ForgotPassword from './pages/ForgotPassword';
+import Navbar from './pages/Navbar';
 
 function App() {
 
   return (
-    <div>
-      <div>
-        <div className="bg-purple-700 p-4 text-white text-center">
-          <h1>QCM</h1>
-        </div>
-        <div className="bg-gray-800 overflow-hidden">
-          <ul className='list-none m-0 p-0 flex justify-center'>
-            <li className='float-left'>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/questionnaire"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Questionnaire</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/new-question"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>New question</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/questions"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Question</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/stagiaires"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Stagiaires</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/question/stagiaire"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Questions stagiaire</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/results"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Results</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/results-final"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Results final</NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
-                  " block text-center px-5 py-3.5 text-decoration-none"
-                }>Dashboard</NavLink>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div className='bg-gray-100 min-h-screen'>
 
+      <Navbar />
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -117,8 +37,11 @@ function App() {
           <Route path="/question/stagiaire" element={<QuestionPageStagiaire />} />
           <Route path="/results" element={<Results />} />
           <Route path="/results-final" element={<ResultsPage />} />
-          <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin', 'manager']} />} />
+          {/* <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin', 'manager']} />} /> */}
+          <Route path="/dashboard" element=<DashboardPage /> />
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="*" element={<Error404 />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </AuthProvider>
 

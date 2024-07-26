@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import mockStagiaires from "../../assets/mockStagiares";
 import { StagiaireI } from "../../interfaces/StagiaireI";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import NouveauStagiaireModal from '../../components/nouveauStagiaireModal/NouveauStagiaireModal';
 
 const ListeStagiaires: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [stagiaires, setStagiaires] = useState<StagiaireI[]>(mockStagiaires);
     const navigate = useNavigate();
 
@@ -16,36 +18,62 @@ const ListeStagiaires: React.FC = () => {
         navigate(`/stagiaire/${id}`);
     };
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSaveStagiaire = (newStagiaire: StagiaireI) => {
+        setStagiaires([...stagiaires, newStagiaire]);
+    };
+
     return (
-        <div className="max-w-6xl mx-auto mt-10 p-5 bg-white shadow-lg rounded">
-            <h1 className="text-3xl font-bold text-center mb-10">Liste de stagiaires</h1>
-            <table className="w-full text-sm text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                        <th scope="col" className="py-3 px-6 text-center">Nom</th>
-                        <th scope="col" className="py-3 px-6 text-center">Prénom</th>
-                        <th scope="col" className="py-3 px-6 text-center">Moyenne</th>
-                        <th scope="col" className="py-3 px-6 text-center">Date de début</th>
-                        <th scope="col" className="py-3 px-6 text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {stagiaires.map(stagiaire => (
-                        <tr key={stagiaire.id} className="border-b">
-                            <td className="py-4 px-6 text-center">{stagiaire.nom}</td>
-                            <td className="py-4 px-6 text-center">{stagiaire.prenom}</td>
-                            <td className="py-4 px-6 text-center">{stagiaire.moyenne}</td>
-                            <td className="py-4 px-6 text-center">{stagiaire.dateDebut}</td>
-                            <td className="py-4 px-6 text-center space-x-2">
-                                <button className="text-blue-600 hover:text-blue-900" onClick={() => handleView(stagiaire.id)}>Voir</button>
-                                <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
-                            </td>
+        <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">
+
+            <h1 className="text-3xl font-bold text-center mb-8">Liste de stagiaires</h1>
+
+            {isModalOpen && <NouveauStagiaireModal onClose={handleCloseModal} onSave={handleSaveStagiaire} />}
+            <div className="m-5">
+                <table className="w-full border-collapse">
+                    <thead>
+                        <tr className="bg-gray-200 text-left">
+                            <th scope="col" className="border border-gray-300 p-2">Nom</th>
+                            <th scope="col" className="border border-gray-300 p-2">Prénom</th>
+                            <th scope="col" className="border border-gray-300 p-2">Moyenne</th>
+                            <th scope="col" className="border border-gray-300 p-2">Date de début</th>
+                            <th scope="col" className="border border-gray-300 p-2">Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {stagiaires.map(stagiaire => (
+                            <tr key={stagiaire.id} className="even:bg-gray-100 odd:bg-white hover:bg-gray-300">
+                                <td className="border border-gray-300 p-2">{stagiaire.nom}</td>
+                                <td className="border border-gray-300 p-2">{stagiaire.prenom}</td>
+                                <td className="border border-gray-300 p-2">{stagiaire.moyenne !== undefined ? stagiaire.moyenne : '--'}</td>
+                                <td className="border border-gray-300 p-2">{stagiaire.dateDebut}</td>
+                                <td className="border border-gray-300 p-2">
+                                    <Link to="#" className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id)}>Voir</Link>
+                                    {' | '}
+                                    <button className="text-red-500 hover:text-red-800" onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div className="flex justify-end mb-4">
+                <button
+                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleOpenModal}
+                >
+                    Ajouter un stagiaire
+                </button>
+            </div>
         </div>
     );
 };
-
 export default ListeStagiaires;

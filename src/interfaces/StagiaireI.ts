@@ -8,5 +8,5 @@ export interface StagiaireI {
     prenom: string;
     moyenne: number;
     dateDebut: string;
-    questionnaires: StagiaireQuestionnaire[];
+    questionnaires: StagiaireQuestionnaire[]; // on ne doit pas l'avoir
 }

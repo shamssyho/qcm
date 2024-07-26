@@ -3,6 +3,7 @@ import questionnaire from '../../assets/mockQuestionnaire';
 import './Questionnaire.css'
 import Modal from '../../components/modal/Modal';
 import NewQestioannireForm from '../../components/newQuestionnaireForm/NewQuestionnaireForm';
+import { Link } from 'react-router-dom';
 
 export default function Questionnaire() {
     const [questionnaires,] = useState(questionnaire);
@@ -17,22 +18,22 @@ export default function Questionnaire() {
             <table className='w-full border-collapse'>
                 <thead>
                     <tr>
-                        <th className="p-2 border-b border-gray-600">Intitulé</th>
-                        <th className="p-2 border-b border-gray-600">Description</th>
-                        <th className="p-2 border-b border-gray-600">Actions</th>
+                        <th className="border border-gray-300 p-2">Intitulé</th>
+                        <th className="border border-gray-300 p-2">Description</th>
+                        <th className="border border-gray-300 p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {questionnaires.map((question) => (
-                        <tr className="bg-gray-300 border-b border-gray-400" key={question.id}>
-                        <td className="p-2">{question.title}</td>
-                        <td className="p-2">{question.description}</td>
-                        <br/>
-                        <td className="flex justify-center items-center space-x-1 p-2">
-                            <button onClick={() => alert('Edit ' + question.title)} className="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">✏️</button>
-                            <button onClick={() => alert('Delete ' + question.title)} className="p-2 bg-red-500 text-white rounded hover:bg-red-700">🗑️</button>
-                        </td>
-                    </tr>
+                        <tr className="even:bg-gray-100 odd:bg-white hover:bg-gray-300" key={question.id}>
+                            <td className="border border-gray-300 p-2">{question.title}</td>
+                            <td className="border border-gray-300 p-2">{question.description}</td>
+                            <td className="border border-gray-300 p-2">
+                                <Link to='#' onClick={() => alert('Edit ' + question.title)} className="text-blue-500 hover:text-blue-800">Voir</Link>
+                                {" | "}
+                                <button onClick={() => alert('Delete ' + question.title)} className="text-red-500 hover:text-red-800">Supprimer</button>
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </table>
@@ -41,7 +42,7 @@ export default function Questionnaire() {
                     CRÉER UN QUESTIONNAIRE
                 </button>
 
-                <Modal show={showModal} handleClose={handleCloseModal}>
+                <Modal show={showModal} onClose={handleCloseModal}>
                     <NewQestioannireForm />
                 </Modal>
             </div>
