@@ -1,23 +1,22 @@
 import { Route, Routes } from 'react-router-dom';
-import Login from "./pages/login/Login";
+import Navbar from './pages/admin/Navbar';
+import { AuthProvider } from './services/AuthProvider';
+import Login from './pages/login/Login';
+import AdminPage from './pages/admin/AdminPage';
+import PrivateRoute from './pages/PrivateRoutes';
 import Questionnaire from './pages/questionnaire/Questionnaire';
 import NewQuestion from './pages/newQuestion/NewQuestion';
-import ListeQuestions from './pages/listeQuestions/ListeQuestions';
+import ListeQuestions from './pages/admin/listeQuestions/ListeQuestions';
 import QuestionDetail from './pages/questionDetails/QuestionDetails';
-import ListeStagiaires from './pages/listeStagiaires/ListeStagiaires';
-import DetailsStagiaire from './pages/detailsStagiaire/DetailsStagiaire';
+import ListeStagiaires from './pages/admin/listeStagiaires/ListeStagiaires';
+import DetailsStagiaire from './pages/admin/detailsStagiaire/DetailsStagiaire';
 import QuestionPageStagiaire from './pages/quesstionStagiaire/QuestionStagiaire';
 import Results from './pages/result/Results';
 import ResultsPage from './pages/resultsPage/ResultsPage';
-import DashboardPage from './pages/dashboard/DashboardPage';
-import PrivateRoute from './pages/PrivateRoutes';
-import AdminPage from './pages/AdminPage';
+import DashboardPage from './pages/admin/dashboard/DashboardPage';
 import Unauthorized from './pages/Unauthorized';
-import { AuthProvider } from './services/AuthProvider';
 import Error404 from './pages/Error404';
 import ForgotPassword from './pages/ForgotPassword';
-import Navbar from './pages/Navbar';
-
 function App() {
 
   return (

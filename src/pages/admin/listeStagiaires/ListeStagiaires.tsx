@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import mockStagiaires from "../../assets/mockStagiares";
-import { StagiaireI } from "../../interfaces/StagiaireI";
+import mockStagiaires from '../../../assets/mockStagiares';
+import { StagiairesI } from '../../../interfaces/StagiairesI';
 import { Link, useNavigate } from "react-router-dom";
-import NouveauStagiaireModal from '../../components/nouveauStagiaireModal/NouveauStagiaireModal';
+import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
+import NouveauStagiaireModal from '../../../components/nouveauStagiaireModal/NouveauStagiaireModal';
 
 const ListeStagiaires: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [stagiaires, setStagiaires] = useState<StagiaireI[]>(mockStagiaires);
+    const [stagiaires, setStagiaires] = useState<StagiairesI[]>(mockStagiaires);
     const navigate = useNavigate();
 
     const handleDelete = (id: number) => {
-        const updatedStagiaires = stagiaires.filter(stagiaire => stagiaire.id !== id);
+        const updatedStagiaires = stagiaires.filter(stagiaire => stagiaire.id_stagiaire !== id);
         setStagiaires(updatedStagiaires);
     };
 
@@ -26,15 +27,23 @@ const ListeStagiaires: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const handleSaveStagiaire = (newStagiaire: StagiaireI) => {
+    const handleSaveStagiaire = (newStagiaire: StagiairesI) => {
         setStagiaires([...stagiaires, newStagiaire]);
+    };
+
+    // Fonction pour calculer la moyenne des résultats des questionnaires d'un stagiaire
+    const calculateMoyenne = (stagiaire: StagiairesI): number | undefined => {
+        const totalNotes = stagiaire.questionnaires.reduce((acc, questionnaire) => {
+            const foundQuestionnaire = mockQuestionnaires.find(q => q.id_questionnaire === questionnaire.id_questionnaire);
+            return acc + (foundQuestionnaire ? questionnaire.resultat : 0);
+        }, 0);
+        const nombreQuestionnaires = stagiaire.questionnaires.length;
+        return nombreQuestionnaires > 0 ? totalNotes / nombreQuestionnaires : undefined;
     };
 
     return (
         <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">
-
             <h1 className="text-3xl font-bold text-center mb-8">Liste de stagiaires</h1>
-
             {isModalOpen && <NouveauStagiaireModal onClose={handleCloseModal} onSave={handleSaveStagiaire} />}
             <div className="m-5">
                 <table className="w-full border-collapse">
@@ -49,15 +58,19 @@ const ListeStagiaires: React.FC = () => {
                     </thead>
                     <tbody>
                         {stagiaires.map(stagiaire => (
-                            <tr key={stagiaire.id} className="even:bg-gray-100 odd:bg-white hover:bg-gray-300">
+                            <tr key={stagiaire.id_stagiaire} className="even:bg-gray-100 odd:bg-white hover:bg-gray-300">
                                 <td className="border border-gray-300 p-2">{stagiaire.nom}</td>
                                 <td className="border border-gray-300 p-2">{stagiaire.prenom}</td>
-                                <td className="border border-gray-300 p-2">{stagiaire.moyenne !== undefined ? stagiaire.moyenne : '--'}</td>
-                                <td className="border border-gray-300 p-2">{stagiaire.dateDebut}</td>
                                 <td className="border border-gray-300 p-2">
-                                    <Link to="#" className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id)}>Voir</Link>
+                                    {stagiaire.questionnaires
+                                        ? calculateMoyenne(stagiaire)?.toFixed(2)
+                                        : '--'}
+                                </td>
+                                <td className="border border-gray-300 p-2">{stagiaire.date_created}</td>
+                                <td className="border border-gray-300 p-2">
+                                    <Link to="#" className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id_stagiaire)}>Voir</Link>
                                     {' | '}
-                                    <button className="text-red-500 hover:text-red-800" onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
+                                    <button className="text-red-500 hover:text-red-800" onClick={() => handleDelete(stagiaire.id_stagiaire)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}
@@ -76,4 +89,5 @@ const ListeStagiaires: React.FC = () => {
         </div>
     );
 };
+
 export default ListeStagiaires;

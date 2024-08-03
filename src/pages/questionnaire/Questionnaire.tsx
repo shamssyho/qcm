@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import questionnaire from '../../assets/mockQuestionnaire';
+import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
 import './Questionnaire.css'
 import Modal from '../../components/modal/Modal';
 import NewQestioannireForm from '../../components/newQuestionnaireForm/NewQuestionnaireForm';
 import { Link } from 'react-router-dom';
 
 export default function Questionnaire() {
-    const [questionnaires,] = useState(questionnaire);
+    const [questionnaires,] = useState(mockQuestionnaires);
     const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = () => setShowModal(true);
@@ -25,13 +25,13 @@ export default function Questionnaire() {
                 </thead>
                 <tbody>
                     {questionnaires.map((question) => (
-                        <tr className="even:bg-gray-100 odd:bg-white hover:bg-gray-300" key={question.id}>
-                            <td className="border border-gray-300 p-2">{question.title}</td>
+                        <tr className="even:bg-gray-100 odd:bg-white hover:bg-gray-300" key={question.id_questionnaire}>
+                            <td className="border border-gray-300 p-2">{question.name}</td>
                             <td className="border border-gray-300 p-2">{question.description}</td>
                             <td className="border border-gray-300 p-2">
-                                <Link to='#' onClick={() => alert('Edit ' + question.title)} className="text-blue-500 hover:text-blue-800">Voir</Link>
+                                <Link to='#' onClick={() => alert('Edit ' + question.name)} className="text-blue-500 hover:text-blue-800">Voir</Link>
                                 {" | "}
-                                <button onClick={() => alert('Delete ' + question.title)} className="text-red-500 hover:text-red-800">Supprimer</button>
+                                <button onClick={() => alert('Delete ' + question.name)} className="text-red-500 hover:text-red-800">Supprimer</button>
                             </td>
                         </tr>
                     ))}

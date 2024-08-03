@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import mockQuestions from '../../assets/mockQuestions';
+import { mockQuestions } from '../../assets/mockQuestions';
 
 const QuestionDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();

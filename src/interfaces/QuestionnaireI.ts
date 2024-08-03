@@ -1,6 +1,11 @@
+import { QuestionsI } from "./QuestionsI";
+
 export interface QuestionnaireI {
-    id: number;
-    title: string;
+    id_questionnaire: number;
+    id_admin: number;
+    name: string;
     description: string;
-    stagiaireId: number[]; //pas besoin de l'avoir
+    date_created: string;
+    date_modified: string;
+    questions: QuestionsI[];
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import mockQuestions from "../../assets/mockQuestions"
-import { QuestionsI } from "../../interfaces/QuestionsI";
+import { mockQuestions } from "../../../assets/mockQuestions";
+import { QuestionsI } from "../../../interfaces/QuestionsI";
 export default function ListeQuestions() {
     const handleDelete = (id: number) => {
         // Logique de suppression de la question

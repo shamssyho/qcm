@@ -1,6 +1,5 @@
 import React from 'react';
-import StatCard from '../../components/statCard/StatCard';
-import ScoreCircle from '../../components/scoreCircle/ScoreCircle';
+import StatCard from '../../../components/statCard/StatCard';
 import ListeStagiaires from '../listeStagiaires/ListeStagiaires';
 
 const dashboardData = {
@@ -10,11 +9,6 @@ const dashboardData = {
     averageScore: 75,
 };
 
-const recentResults = [
-    { subject: "TypeScript", score: 75 },
-    { subject: "GitHub", score: 80 },
-    { subject: "Python", score: 60 },
-];
 
 const DashboardPage: React.FC = () => {
     return (

@@ -1,37 +1,32 @@
-import { StagiaireI } from "../interfaces/StagiaireI";
+import { StagiairesI } from "../interfaces/StagiairesI";
 
-const mockStagiaires: StagiaireI[] = [
+const mockStagiaires: StagiairesI[] = [
     {
-        id: 1,
-        nom: "Dupont",
-        prenom: "Jean",
-        moyenne: 15.5,
-        dateDebut: "04/01/2024",
+        id_stagiaire: 1,
+        email: "stagiaire1@example.com",
+        nom: "Doe",
+        prenom: "John",
+        password: "password1",
+        date_created: "2023-01-01",
+        date_modified: "2023-01-01",
+        active: true,
         questionnaires: [
-            { questionnaireId: 1, note: 15 },
-            { questionnaireId: 3, note: 14 },
+            { id_questionnaire: 1, resultat: 75 },
+            { id_questionnaire: 2, resultat: 80 },
         ],
     },
     {
-        id: 2,
-        nom: "Martin",
-        prenom: "Marie",
-        moyenne: 17.3,
-        dateDebut: "10/01/2024",
+        id_stagiaire: 2,
+        email: "stagiaire2@example.com",
+        nom: "Smith",
+        prenom: "Jane",
+        password: "password2",
+        date_created: "2023-01-02",
+        date_modified: "2023-01-02",
+        active: true,
         questionnaires: [
-            { questionnaireId: 1, note: 16 },
-            { questionnaireId: 2, note: 18 },
-        ],
-    },
-    {
-        id: 3,
-        nom: "Durand",
-        prenom: "Pierre",
-        moyenne: 14.0,
-        dateDebut: "10/01/2024",
-        questionnaires: [
-            { questionnaireId: 2, note: 13 },
-            { questionnaireId: 3, note: 15 },
+            { id_questionnaire: 1, resultat: 85 },
+            { id_questionnaire: 2, resultat: 90 },
         ],
     },
 ];

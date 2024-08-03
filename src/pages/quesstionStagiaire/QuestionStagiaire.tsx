@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Option from '../../components/options/Options';
-import mockQuestions from '../../assets/mockQuestions';
+import { mockQuestions } from '../../assets/mockQuestions';
 
 const QuestionPageStagiaire: React.FC = () => {
     const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
@@ -12,7 +12,7 @@ const QuestionPageStagiaire: React.FC = () => {
     const question = mockQuestions[currentQuestionIndex];
 
     const handleOptionClick = (index: number) => {
-        if (question.isMultiple) {
+        if (question.bonne_reponse.length > 1) {
             setSelectedOptions((prev) =>
                 prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
             );
@@ -23,9 +23,15 @@ const QuestionPageStagiaire: React.FC = () => {
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < mockQuestions.length - 1) {
+            if (checkAnswer()) {
+                setScore(score + 1);
+            }
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedOptions([]); // Reset selected options for the next question
+            setSelectedOptions([]);
         } else {
+            if (checkAnswer()) {
+                setScore(score + 1);
+            }
             handleFinish();
         }
     };
@@ -33,21 +39,20 @@ const QuestionPageStagiaire: React.FC = () => {
     const handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedOptions([]); // Reset selected options for the previous question
+            setSelectedOptions([]);
         }
     };
 
+    const checkAnswer = (): boolean => {
+        const sortedSelectedOptions = selectedOptions.sort().join(',');
+        const sortedCorrectAnswers = question.bonne_reponse.sort().join(',');
+        return sortedSelectedOptions === sortedCorrectAnswers;
+    };
+
     const handleFinish = () => {
-        let finalScore = 0;
-        mockQuestions.forEach((q, index) => {
-            if (selectedOptions.sort().join(',') === q.bonne_reponse.sort().join(',')) {
-                finalScore += 1;
-            }
-        });
-        setScore(finalScore);
         setIsFinished(true);
 
-        const percentage = (finalScore / mockQuestions.length) * 100;
+        const percentage = (score / mockQuestions.length) * 100;
 
         if (percentage > 75) {
             setFeedbackMessage('Félicitations ! Vous avez obtenu une excellente moyenne.');
@@ -84,7 +89,7 @@ const QuestionPageStagiaire: React.FC = () => {
                             color={selectedOptions.includes(index) ? 'border-green-500' : 'border-gray-300'}
                             response={selectedOptions.includes(index)}
                             onClick={() => handleOptionClick(index)}
-                            isMultiple={question.isMultiple || false}
+                            isMultiple={question.bonne_reponse.length > 1}
                         />
                     ))}
                 </div>

@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+// components/detailsStagiaire/DetailsStagiaire.tsx
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import mockStagiaires from '../../assets/mockStagiares';
-import mockQuestionnaire from '../../assets/mockQuestionnaire';
-import { StagiaireI, StagiaireQuestionnaire } from '../../interfaces/StagiaireI';
-import { QuestionnaireI } from '../../interfaces/QuestionnaireI';
-import Modal from '../../components/modal/Modal';
+import mockStagiaires from '../../../assets/mockStagiares';
+import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
+import { StagiairesI } from '../../../interfaces/StagiairesI';
+import { QuestionnaireI } from '../../../interfaces/QuestionnaireI';
+import Modal from '../../../components/modal/Modal';
+
 
 export default function DetailsStagiaire() {
     const { id } = useParams<{ id: string }>();
     const stagiaireId = parseInt(id ?? '', 10);
-    const stagiaire: StagiaireI | undefined = mockStagiaires.find(s => s.id === stagiaireId);
+    const stagiaire: StagiairesI | undefined = mockStagiaires.find(s => s.id_stagiaire === stagiaireId);
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [nom, setNom] = useState(stagiaire?.nom || '');
     const [prenom, setPrenom] = useState(stagiaire?.prenom || '');
-    const [moyenne, setMoyenne] = useState(stagiaire?.moyenne || '');
-    const [dateDebut, setDateDebut] = useState(stagiaire?.dateDebut || '');
+    const [dateCreated, setDateCreated] = useState(stagiaire?.date_created || '');
 
     if (!stagiaire) {
         return <div>Stagiaire non trouvé</div>;
     }
 
     const getQuestionnaireDetails = (questionnaireId: number): QuestionnaireI | undefined => {
-        return mockQuestionnaire.find(q => q.id === questionnaireId);
+        return mockQuestionnaires.find(q => q.id_questionnaire === questionnaireId);
     };
 
     const handleSave = () => {
@@ -36,8 +37,7 @@ export default function DetailsStagiaire() {
             <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
                 <p className="text-lg"><strong>Nom:</strong> {stagiaire.nom}</p>
                 <p className="text-lg"><strong>Prénom:</strong> {stagiaire.prenom}</p>
-                <p className="text-lg"><strong>Moyenne:</strong> {stagiaire.moyenne || '--'}</p>
-                <p className="text-lg"><strong>Date de début:</strong> {stagiaire.dateDebut}</p>
+                <p className="text-lg"><strong>Date de création:</strong> {stagiaire.date_created}</p>
             </div>
             <h2 className="text-2xl font-semibold mt-8 mb-4">Questionnaires et Notes</h2>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -49,13 +49,13 @@ export default function DetailsStagiaire() {
                     </tr>
                 </thead>
                 <tbody className="bg-white">
-                    {stagiaire.questionnaires.map((sq: StagiaireQuestionnaire) => {
-                        const questionnaire = getQuestionnaireDetails(sq.questionnaireId);
+                    {stagiaire.questionnaires.map((sq) => {
+                        const questionnaire = getQuestionnaireDetails(sq.id_questionnaire);
                         return questionnaire ? (
-                            <tr key={sq.questionnaireId} className="border-b">
-                                <td className="py-4 px-6">{questionnaire.title}</td>
+                            <tr key={sq.id_questionnaire} className="border-b">
+                                <td className="py-4 px-6">{questionnaire.name}</td>
                                 <td className="py-4 px-6">{questionnaire.description}</td>
-                                <td className="py-4 px-6">{sq.note}</td>
+                                <td className="py-4 px-6">{sq.resultat}</td>
                             </tr>
                         ) : null;
                     })}
@@ -88,20 +88,11 @@ export default function DetailsStagiaire() {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 mb-2">Moyenne</label>
-                        <input
-                            type="number"
-                            value={moyenne}
-                            onChange={(e) => setMoyenne(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-2">Date de début</label>
+                        <label className="block text-gray-700 mb-2">Date de création</label>
                         <input
                             type="date"
-                            value={dateDebut}
-                            onChange={(e) => setDateDebut(e.target.value)}
+                            value={dateCreated}
+                            onChange={(e) => setDateCreated(e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                     </div>
