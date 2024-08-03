@@ -6,13 +6,14 @@ const mockQuestions: QuestionsI[] = [
         texte_question: "Quel est le principal objectif de TypeScript ?",
         nbre_reponses: 3,
         choix: [
-            "Fournir une typage statique à JavaScript",
+            "Fournir un typage statique à JavaScript",
             "Remplacer JavaScript",
             "Améliorer les performances des navigateurs",
         ],
         bonne_reponse: [0],
         date_created: "2023-01-01",
         date_modified: "2023-01-01",
+        isMultiple: false,
     },
     {
         id_question: 2,
@@ -24,6 +25,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [0, 1, 2],
         date_created: "2023-01-02",
         date_modified: "2023-01-02",
+        isMultiple: true,
     },
     {
         id_question: 3,
@@ -38,6 +40,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [1],
         date_created: "2023-01-03",
         date_modified: "2023-01-03",
+        isMultiple: true,
     },
     {
         id_question: 4,
@@ -53,6 +56,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [0],
         date_created: "2023-01-04",
         date_modified: "2023-01-04",
+        isMultiple: false,
     },
     {
         id_question: 5,
@@ -68,6 +72,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [0],
         date_created: "2023-01-05",
         date_modified: "2023-01-05",
+        isMultiple: false,
     },
     {
         id_question: 6,
@@ -79,6 +84,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [0, 1],
         date_created: "2023-01-06",
         date_modified: "2023-01-06",
+        isMultiple: true,
     },
     {
         id_question: 7,
@@ -94,6 +100,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [1],
         date_created: "2023-01-07",
         date_modified: "2023-01-07",
+        isMultiple: false,
     },
     {
         id_question: 8,
@@ -108,6 +115,7 @@ const mockQuestions: QuestionsI[] = [
         bonne_reponse: [0],
         date_created: "2023-01-08",
         date_modified: "2023-01-08",
+        isMultiple: false,
     },
 ];
 
