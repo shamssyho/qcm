@@ -96,10 +96,19 @@ function App() {
                   " block text-center px-5 py-3.5 text-decoration-none"
                 }>Dashboard</NavLink>
             </li>
+            <li>
+              <NavLink 
+                to="/dashboard" 
+                className={({ isActive }) =>
+                  (isActive ? "bg-purple-700 text-white" : "text-white hover:bg-gray-200 hover:text-black") +
+                  " block text-center px-5 py-3.5 text-decoration-none"
+              }>Dashboard</NavLink>
+            </li>
           </ul>
         </div>
       </div>
       <Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/new-question" element={<NewQuestion />} />
