@@ -51,7 +51,7 @@ const ListeStagiaires: React.FC = () => {
                         <tr className="bg-gray-200 text-left">
                             <th scope="col" className="border border-gray-300 p-2">Nom</th>
                             <th scope="col" className="border border-gray-300 p-2">Prénom</th>
-                            <th scope="col" className="border border-gray-300 p-2">Moyenne</th>
+                            {/* <th scope="col" className="border border-gray-300 p-2">Moyenne</th> */}
                             <th scope="col" className="border border-gray-300 p-2">Date de début</th>
                             <th scope="col" className="border border-gray-300 p-2">Action</th>
                         </tr>
@@ -61,11 +61,11 @@ const ListeStagiaires: React.FC = () => {
                             <tr key={stagiaire.id_stagiaire} className="even:bg-gray-100 odd:bg-white hover:bg-gray-300">
                                 <td className="border border-gray-300 p-2">{stagiaire.nom}</td>
                                 <td className="border border-gray-300 p-2">{stagiaire.prenom}</td>
-                                <td className="border border-gray-300 p-2">
+                                {/* <td className="border border-gray-300 p-2">
                                     {stagiaire.questionnaires
                                         ? calculateMoyenne(stagiaire)?.toFixed(2)
                                         : '--'}
-                                </td>
+                                </td> */}
                                 <td className="border border-gray-300 p-2">{stagiaire.date_created}</td>
                                 <td className="border border-gray-300 p-2">
                                     <Link to="#" className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id_stagiaire)}>Voir</Link>

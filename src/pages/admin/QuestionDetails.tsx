@@ -1,17 +1,16 @@
+// pages/questionDetail/QuestionDetail.tsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { mockQuestions } from '../../assets/mockQuestions';
+import { useQuestions } from '../../services/QuestionContext';
 
 const QuestionDetail: React.FC = () => {
-
     const { id } = useParams<{ id: string }>();
     const questionId = parseInt(id ?? '', 10);
-    const question = mockQuestions.find(q => q.id_question === questionId);
+    const { questions, deleteQuestion } = useQuestions();
+    const question = questions.find(q => q.id_question === questionId);
     const navigate = useNavigate();
 
-    // Convertir les indices des bonnes réponses en valeurs de choix
     const initialSelectedAnswers = question ? question.bonne_reponse.map(index => question.choix[index]) : [];
-
     const [selectedAnswers, setSelectedAnswers] = useState<string[]>(initialSelectedAnswers);
 
     if (!question) {
@@ -25,9 +24,8 @@ const QuestionDetail: React.FC = () => {
     };
 
     const handleDelete = () => {
-        // Logique de suppression de la question
-        console.log(`Supprimer la question avec l'ID: ${question.id_question}`);
-        navigate('/'); // Retour à la liste des questions après suppression
+        deleteQuestion(question.id_question);
+        navigate(-1); // Retour à la liste des questions après suppression
     };
 
     const handleCheckboxChange = (choix: string) => {
@@ -99,7 +97,5 @@ const QuestionDetail: React.FC = () => {
         </div>
     );
 };
-
-
 
 export default QuestionDetail;

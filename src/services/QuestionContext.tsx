@@ -1,33 +1,38 @@
-// context/QuestionsContext.tsx
+// services/QuestionContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { QuestionsI } from '../interfaces/QuestionsI';
 import { mockQuestions } from '../assets/mockQuestions';
+import { QuestionsI } from '../interfaces/QuestionsI';
 
-interface QuestionsContextProps {
+interface QuestionContextProps {
     questions: QuestionsI[];
-    addQuestion: (newQuestion: QuestionsI) => void;
+    addQuestion: (question: QuestionsI) => void;
+    deleteQuestion: (id: number) => void;
 }
 
-const QuestionsContext = createContext<QuestionsContextProps | undefined>(undefined);
+const QuestionContext = createContext<QuestionContextProps | undefined>(undefined);
+
+export const useQuestions = () => {
+    const context = useContext(QuestionContext);
+    if (!context) {
+        throw new Error('useQuestions must be used within a QuestionProvider');
+    }
+    return context;
+};
 
 export const QuestionsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [questions, setQuestions] = useState<QuestionsI[]>(mockQuestions);
 
-    const addQuestion = (newQuestion: QuestionsI) => {
-        setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+    const addQuestion = (question: QuestionsI) => {
+        setQuestions([...questions, question]);
+    };
+
+    const deleteQuestion = (id: number) => {
+        setQuestions(questions.filter(q => q.id_question !== id));
     };
 
     return (
-        <QuestionsContext.Provider value={{ questions, addQuestion }}>
+        <QuestionContext.Provider value={{ questions, addQuestion, deleteQuestion }}>
             {children}
-        </QuestionsContext.Provider>
+        </QuestionContext.Provider>
     );
-};
-
-export const useQuestions = (): QuestionsContextProps => {
-    const context = useContext(QuestionsContext);
-    if (!context) {
-        throw new Error('useQuestions must be used within a QuestionsProvider');
-    }
-    return context;
 };

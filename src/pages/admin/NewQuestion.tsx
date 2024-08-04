@@ -1,9 +1,13 @@
 // components/newQuestion/NewQuestion.tsx
 import React, { useState } from 'react';
-import { useQuestions } from '../../services/QuestionContext';
+import { useNavigate, useParams } from 'react-router-dom';
+import { mockQuestions } from '../../assets/mockQuestions';
 
 const NewQuestion: React.FC = () => {
-    const { addQuestion } = useQuestions();
+    const { id } = useParams<{ id: string }>();
+    const questionnaireId = parseInt(id ?? '', 10);
+    const navigate = useNavigate();
+
     const [questionText, setQuestionText] = useState('');
     const [numberOfAnswers, setNumberOfAnswers] = useState(2);
     const [answers, setAnswers] = useState<string[]>(['', '']);
@@ -16,8 +20,6 @@ const NewQuestion: React.FC = () => {
     const handleNumberOfAnswersChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newNumberOfAnswers = parseInt(e.target.value, 10);
         setNumberOfAnswers(newNumberOfAnswers);
-
-        // Adjust the answers array based on the new number of answers
         if (newNumberOfAnswers > answers.length) {
             setAnswers([...answers, ...Array(newNumberOfAnswers - answers.length).fill('')]);
         } else {
@@ -50,8 +52,8 @@ const NewQuestion: React.FC = () => {
         }
 
         const newQuestion = {
-            id_question: Date.now(), // Utiliser un ID unique basé sur le timestamp
-            id_questionnaire: 1, // Vous pouvez définir cette valeur dynamiquement selon vos besoins
+            id_question: Date.now(),
+            id_questionnaire: questionnaireId,
             texte_question: questionText,
             nbre_reponses: numberOfAnswers,
             choix: answers,
@@ -60,13 +62,8 @@ const NewQuestion: React.FC = () => {
             date_modified: new Date().toISOString()
         };
 
-        addQuestion(newQuestion);
-
-        // Réinitialiser le formulaire après la soumission
-        setQuestionText('');
-        setNumberOfAnswers(2);
-        setAnswers(['', '']);
-        setCorrectAnswers([]);
+        mockQuestions.push(newQuestion);
+        navigate(`/questionnaire/${questionnaireId}`);
     };
 
     return (
@@ -111,7 +108,6 @@ const NewQuestion: React.FC = () => {
                                 checked={correctAnswers.includes(index)}
                                 onChange={() => handleCorrectAnswerChange(index)}
                                 className="ml-4"
-                                required
                             />
                             <span className="ml-2">Bonne Réponse</span>
                         </div>
