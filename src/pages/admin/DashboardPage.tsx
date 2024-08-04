@@ -1,6 +1,6 @@
 import React from 'react';
-import StatCard from '../../../components/statCard/StatCard';
-import ListeStagiaires from '../listeStagiaires/ListeStagiaires';
+import StatCard from '../../components/statCard/StatCard';
+import ListeStagiaires from './ListeStagiaires';
 
 const dashboardData = {
     totalQuestions: 40,

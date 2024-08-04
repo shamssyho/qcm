@@ -1,5 +1,3 @@
-import { ResultatsI } from "./Resultats";
-
 export interface StagiairesI {
     id_stagiaire: number;
     email: string;
@@ -9,5 +7,4 @@ export interface StagiairesI {
     date_created: string;
     date_modified: string;
     active: boolean;
-    questionnaires: ResultatsI[];
 }

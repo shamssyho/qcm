@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import mockStagiaires from '../../../assets/mockStagiares';
-import { StagiairesI } from '../../../interfaces/StagiairesI';
+import mockStagiaires from '../../assets/mockStagiares';
+import { StagiairesI } from '../../interfaces/StagiairesI';
 import { Link, useNavigate } from "react-router-dom";
-import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
-import NouveauStagiaireModal from '../../../components/nouveauStagiaireModal/NouveauStagiaireModal';
+import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
+import NouveauStagiaireModal from '../../components/nouveauStagiaireModal/NouveauStagiaireModal';
 
 const ListeStagiaires: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

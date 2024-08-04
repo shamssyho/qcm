@@ -1,5 +1,5 @@
 export interface ReponsesI {
-    id_reponse: number;
+    id_response: number;
     id_question: number;
     id_stagiaire: number;
     reponses_stagiaire: number[];

@@ -1,11 +1,11 @@
 // components/detailsStagiaire/DetailsStagiaire.tsx
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import mockStagiaires from '../../../assets/mockStagiares';
-import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
-import { StagiairesI } from '../../../interfaces/StagiairesI';
-import { QuestionnaireI } from '../../../interfaces/QuestionnaireI';
-import Modal from '../../../components/modal/Modal';
+import mockStagiaires from '../../assets/mockStagiares';
+import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
+import { StagiairesI } from '../../interfaces/StagiairesI';
+import { QuestionnaireI } from '../../interfaces/QuestionnaireI';
+import Modal from '../../components/modal/Modal';
 
 
 export default function DetailsStagiaire() {
@@ -37,7 +37,6 @@ export default function DetailsStagiaire() {
             <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
                 <p className="text-lg"><strong>Nom:</strong> {stagiaire.nom}</p>
                 <p className="text-lg"><strong>Prénom:</strong> {stagiaire.prenom}</p>
-                <p className="text-lg"><strong>Date de création:</strong> {stagiaire.date_created}</p>
             </div>
             <h2 className="text-2xl font-semibold mt-8 mb-4">Questionnaires et Notes</h2>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

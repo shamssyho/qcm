@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { mockQuestions } from '../../assets/mockQuestions';
 
 const QuestionDetail: React.FC = () => {
+
     const { id } = useParams<{ id: string }>();
     const questionId = parseInt(id ?? '', 10);
     const question = mockQuestions.find(q => q.id_question === questionId);
@@ -98,5 +99,7 @@ const QuestionDetail: React.FC = () => {
         </div>
     );
 };
+
+
 
 export default QuestionDetail;
