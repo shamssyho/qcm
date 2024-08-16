@@ -1,17 +1,23 @@
-// pages/questionnaireDetail/QuestionnaireDetail.tsx
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
 import { mockQuestions } from '../../../assets/mockQuestions';
-
 import { QuestionsI } from '../../../interfaces/QuestionsI';
 
 const QuestionnaireDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const questionnaireId = parseInt(id ?? '', 10);
+
+    // Assurez-vous que questionnaireId est un nombre valide
+    if (isNaN(questionnaireId)) {
+        return <div>ID invalide pour le questionnaire</div>;
+    }
+
+    // Recherche du questionnaire par ID
     const questionnaire = mockQuestionnaires.find(q => q.id_questionnaire === questionnaireId);
     const questions = mockQuestions.filter(q => q.id_questionnaire === questionnaireId);
 
+    // Vérifiez si le questionnaire existe
     if (!questionnaire) {
         return <div>Questionnaire non trouvé</div>;
     }

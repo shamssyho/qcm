@@ -43,7 +43,7 @@ function App() {
             <Route path="/results-final" element={<ResultsPage />} />
             <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['admin']} />} />
             <Route path="/question/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} />
-            <Route path="/new-questionnaire" element={<PrivateRoute element={NewQuestionnaireForm} roles={['admin']} />} />
+            <Route path="/new-questionnaire" element={<NewQuestionnaireForm onSave={() => { }} onClose={() => { }} />} />
             <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin']} />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="*" element={<Error404 />} />
