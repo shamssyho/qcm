@@ -1,11 +1,11 @@
 // components/detailsStagiaire/DetailsStagiaire.tsx
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import mockStagiaires from '../../assets/mockStagiares';
-import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
-import { StagiairesI } from '../../interfaces/StagiairesI';
-import { QuestionnaireI } from '../../interfaces/QuestionnaireI';
-import Modal from '../../components/modal/Modal';
+import mockStagiaires from '../../../assets/mockStagiares';
+import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
+import { StagiairesI } from '../../../interfaces/StagiairesI';
+import { QuestionnaireI } from '../../../interfaces/QuestionnaireI';
+import Modal from '../../../components/modal/Modal';
 
 
 export default function DetailsStagiaire() {

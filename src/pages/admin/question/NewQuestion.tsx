@@ -1,7 +1,7 @@
 // components/newQuestion/NewQuestion.tsx
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { mockQuestions } from '../../assets/mockQuestions';
+import { mockQuestions } from '../../../assets/mockQuestions';
 
 const NewQuestion: React.FC = () => {
     const { id } = useParams<{ id: string }>();

@@ -1,32 +1,48 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
-import Modal from '../../components/modal/Modal';
-import NewQuestionnaireForm from '../../components/newQuestionnaireForm/NewQuestionnaireForm';
-import { QuestionnairesI } from '../../interfaces/QuestionnaireI';
+import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
+import Modal from '../../../components/modal/Modal';
+import { QuestionnairesI } from '../../../interfaces/QuestionnaireI';
+import NewQuestionnaireForm from './NewQuestionnaireForm';
 
 export default function Questionnaire() {
     const [questionnaires, setQuestionnaires] = useState<QuestionnairesI[]>(mockQuestionnaires);
     const [showModal, setShowModal] = useState(false);
+    const [currentQuestionnaire, setCurrentQuestionnaire] = useState<QuestionnairesI | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
     const handleOpenModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setCurrentQuestionnaire(null); // Réinitialiser le questionnaire en cours de modification
+        setIsEditing(false);
+    };
 
     const handleSaveQuestionnaire = (newQuestionnaire: { name: string, description: string }) => {
         const currentDate = new Date().toISOString();
-        const newQuestionnaires = [
-            ...questionnaires,
-            {
-                id_questionnaire: questionnaires.length + 1,
-                id_admin: 1,
-                ...newQuestionnaire,
-                date_created: currentDate,
-                date_modified: currentDate
-            }
-        ];
-        setQuestionnaires(newQuestionnaires);
-        handleCloseModal(); // Close modal after saving
+
+        if (isEditing && currentQuestionnaire) {
+            const updatedQuestionnaires = questionnaires.map(q =>
+                q.id_questionnaire === currentQuestionnaire.id_questionnaire
+                    ? { ...q, ...newQuestionnaire, date_modified: currentDate }
+                    : q
+            );
+            setQuestionnaires(updatedQuestionnaires);
+        } else {
+            const newQuestionnaires = [
+                ...questionnaires,
+                {
+                    id_questionnaire: questionnaires.length + 1,
+                    id_admin: 1,
+                    ...newQuestionnaire,
+                    date_created: currentDate,
+                    date_modified: currentDate
+                }
+            ];
+            setQuestionnaires(newQuestionnaires);
+        }
+        handleCloseModal();
     };
 
     const handleViewQuestionnaire = (id: number) => {
@@ -38,6 +54,12 @@ export default function Questionnaire() {
             const updatedQuestionnaires = questionnaires.filter(q => q.id_questionnaire !== id);
             setQuestionnaires(updatedQuestionnaires);
         }
+    };
+
+    const handleEditQuestionnaire = (questionnaire: QuestionnairesI) => {
+        setCurrentQuestionnaire(questionnaire);
+        setIsEditing(true);
+        setShowModal(true);
     };
 
     return (
@@ -65,6 +87,13 @@ export default function Questionnaire() {
                                 </button>
                                 {" | "}
                                 <button
+                                    onClick={() => handleEditQuestionnaire(question)}
+                                    className="text-yellow-500 hover:text-yellow-800"
+                                >
+                                    Modifier
+                                </button>
+                                {" | "}
+                                <button
                                     onClick={() => handleDeleteQuestionnaire(question.id_questionnaire)}
                                     className="text-red-500 hover:text-red-800"
                                 >
@@ -81,7 +110,11 @@ export default function Questionnaire() {
                 </button>
 
                 <Modal show={showModal} onClose={handleCloseModal}>
-                    <NewQuestionnaireForm onSave={handleSaveQuestionnaire} onClose={handleCloseModal} />
+                    <NewQuestionnaireForm
+                        onSave={handleSaveQuestionnaire}
+                        onClose={handleCloseModal}
+                        initialData={currentQuestionnaire}
+                    />
                 </Modal>
             </div>
         </div>

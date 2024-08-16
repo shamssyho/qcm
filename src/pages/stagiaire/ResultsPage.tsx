@@ -1,5 +1,5 @@
 import React from 'react';
-import ScoreCircle from '../../components/scoreCircle/ScoreCircle';
+import ScoreCircle from './ScoreCircle';
 
 interface Result {
     subject: string;

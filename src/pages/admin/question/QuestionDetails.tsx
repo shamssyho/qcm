@@ -1,7 +1,7 @@
 // pages/questionDetail/QuestionDetail.tsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuestions } from '../../services/QuestionContext';
+import { useQuestions } from '../../../services/QuestionContext';
 
 const QuestionDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();

@@ -1,24 +1,27 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../services/AuthProvider';
+
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const { login } = useAuth();
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Handle the login logic here
-        console.log('Login with:', email, password);
+        login(email, password);
     };
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
+
     const handleSetNewPassword = () => {
-        navigate('/forgot-password"')
-    }
+        navigate('/forgot-password');
+    };
 
     return (
         <div className="text-center flex justify-center">
             <div className="bg-gray-50 rounded-xl m-12 mb-auto w-96 p-5">
-                <h2 className='text-2xl font-bold mb-10'>Se connecter</h2>
-                <form onSubmit={handleSubmit} className='space-y-5'>
+                <h2 className="text-2xl font-bold mb-10">Se connecter</h2>
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                         <input
                             type="email"
@@ -38,9 +41,14 @@ export default function Login() {
                         />
                     </div>
                     <div className="text-sm mb-10" onClick={handleSetNewPassword}>
-                        <a href="/forgot-password" className="text-blue-600 hover:text-blue-800">Mot de passe oublié ? Cliquer sur ce lien</a>
+                        <Link to="/forgot-password" className="text-blue-600 hover:text-blue-800">
+                            Mot de passe oublié ? Cliquez ici
+                        </Link>
                     </div>
-                    <button type="submit" className="w-full py-2.5 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">
+                    <button
+                        type="submit"
+                        className="w-full py-2.5 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
+                    >
                         SE CONNECTER
                     </button>
                 </form>
@@ -48,5 +56,3 @@ export default function Login() {
         </div>
     );
 }
-
-

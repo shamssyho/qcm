@@ -1,10 +1,10 @@
 // pages/questionnaireDetail/QuestionnaireDetail.tsx
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { mockQuestionnaires } from '../../assets/mockQuestionnaires';
-import { mockQuestions } from '../../assets/mockQuestions';
+import { mockQuestionnaires } from '../../../assets/mockQuestionnaires';
+import { mockQuestions } from '../../../assets/mockQuestions';
 
-import { QuestionsI } from '../../interfaces/QuestionsI';
+import { QuestionsI } from '../../../interfaces/QuestionsI';
 
 const QuestionnaireDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
