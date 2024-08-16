@@ -1,10 +1,10 @@
 export interface StagiairesI {
     id_stagiaire: number;
-    email: string;
-    nom: string;
-    prenom: string;
-    password: string;
-    date_created: string;
-    date_modified: string;
-    active: boolean;
+    email?: string;
+    nom?: string;
+    prenom?: string;
+    password?: string;
+    date_created?: string;
+    date_modified?: string;
+    active?: boolean;
 }
