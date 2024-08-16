@@ -1,4 +1,3 @@
-// components/newQuestionnaireForm/NewQuestionnaireForm.tsx
 import React, { useState, useEffect } from 'react';
 
 interface NewQuestionnaireFormProps {
