@@ -1,38 +1,25 @@
-import { StagiaireI } from "../interfaces/StagiaireI";
+import { StagiairesI } from "../interfaces/StagiairesI";
 
-const mockStagiaires: StagiaireI[] = [
+const mockStagiaires: StagiairesI[] = [
     {
-        id: 1,
+        id_stagiaire: 1,
+        email: "stagiaire1@example.com",
         nom: "Dupont",
         prenom: "Jean",
-        moyenne: 15.5,
-        dateDebut: "2023-01-10",
-        questionnaires: [
-            { questionnaireId: 1, note: 15 },
-            { questionnaireId: 3, note: 14 },
-        ],
+        password: "password1",
+        date_created: "2023-01-01",
+        date_modified: "2023-01-01",
+        active: true,
     },
     {
-        id: 2,
+        id_stagiaire: 2,
+        email: "stagiaire2@example.com",
         nom: "Martin",
         prenom: "Marie",
-        moyenne: 17.3,
-        dateDebut: "2023-02-15",
-        questionnaires: [
-            { questionnaireId: 1, note: 16 },
-            { questionnaireId: 2, note: 18 },
-        ],
-    },
-    {
-        id: 3,
-        nom: "Durand",
-        prenom: "Pierre",
-        moyenne: 14.0,
-        dateDebut: "2023-03-20",
-        questionnaires: [
-            { questionnaireId: 2, note: 13 },
-            { questionnaireId: 3, note: 15 },
-        ],
+        password: "password2",
+        date_created: "2023-01-02",
+        date_modified: "2023-01-02",
+        active: true,
     },
 ];
 
