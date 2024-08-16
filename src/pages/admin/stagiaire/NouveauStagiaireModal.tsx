@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StagiaireI } from "../../interfaces/StagiaireI";
+import { StagiairesI } from '../../../interfaces/StagiairesI';
 
 interface StagiaireFormProps {
     onClose: () => void;
-    onSave: (stagiaire: StagiaireI) => void;
+    onSave: (stagiaire: StagiairesI) => void;
 }
 
 const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave }) => {
@@ -23,7 +23,7 @@ const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const formattedDate = dateDebut.split('-').reverse().join('/');
-        onSave({ id: Date.now(), nom, prenom, moyenne, dateDebut: formattedDate });
+        onSave({ id_stagiaire: Date.now(), nom, prenom, date_created: formattedDate });
         onClose();
     };
 
