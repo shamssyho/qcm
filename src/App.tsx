@@ -19,7 +19,7 @@ import Error404 from './pages/Error404';
 import ForgotPassword from './pages/ForgotPassword';
 import QuestionnaireDetail from './pages/admin/questionnaire/QuestionnaireDetail';
 import NewQuestionnaireForm from './pages/admin/questionnaire/NewQuestionnaireForm';
-import { QuestionsProvider } from './services/QuestionContext';
+import { QuestionProvider } from './services/QuestionContext';
 function App() {
 
   return (
@@ -27,17 +27,19 @@ function App() {
 
       <Navbar />
       <AuthProvider>
-        <QuestionsProvider>
-
+        <QuestionProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
             <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
             <Route path="/new-question" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
-            <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} />
-            <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} />
-            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
             <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['admin']} />} />
+            {/* <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} /> */}
+            {/* <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} /> */}
+            <Route path="/questions" element={<ListeQuestions />} />
+            <Route path="//questions/:id" element={<QuestionDetail />} />
+
+            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
             <Route path="/question/stagiaire" element={<QuestionPageStagiaire />} />
             <Route path="/results" element={<Results />} />
             <Route path="/results-final" element={<ResultsPage />} />
@@ -49,8 +51,7 @@ function App() {
             <Route path="*" element={<Error404 />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
-        </QuestionsProvider>
-
+        </QuestionProvider>
       </AuthProvider>
 
     </div>
