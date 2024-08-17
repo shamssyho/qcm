@@ -1,12 +1,34 @@
-import { useState } from 'react';
-import questionnaire from '../../assets/mockQuestionnaire';
-import './Questionnaire.css'
+import { useState, useEffect } from 'react';
+import { deleteQuestionnaire, fetchQuestionnaires } from '../../services/api';
 import Modal from '../../components/modal/Modal';
-import NewQestioannireForm from '../../components/newQuestionnaireForm/NewQuestionnaireForm';
+import NewQuestionnaireForm from '../../components/newQuestionnaireForm/NewQuestionnaireForm';
 
 export default function Questionnaire() {
-    const [questionnaires,] = useState(questionnaire);
+    const [questionnaires, setQuestionnaires] = useState([]);
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        loadQuestionnaires();
+    }, []);
+
+    const loadQuestionnaires = async () => {
+        try {
+            const fetchedQuestionnaires = await fetchQuestionnaires();
+            setQuestionnaires(fetchedQuestionnaires);
+        } catch (error) {
+            console.error('Failed to fetch questionnaires:', error);
+        }
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteQuestionnaire(id);
+            loadQuestionnaires(); // Recharge la liste après suppression
+        } catch (error) {
+            console.error('Error deleting questionnaire:', error);
+        }
+    };
+
 
     const handleOpenModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
@@ -15,24 +37,23 @@ export default function Questionnaire() {
         <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">
             <h2 className='text-3xl font-bold mb-5'>Questionnaires</h2>
             <table className='w-full border-collapse'>
-                <thead>
+                <thead className="bg-gray-50">
                     <tr>
-                        <th className="p-2 border-b border-gray-600">Intitulé</th>
-                        <th className="p-2 border-b border-gray-600">Description</th>
-                        <th className="p-2 border-b border-gray-600">Actions</th>
+                        <th className="p-2 border-b border-gray-600 text-center">Intitulé</th>
+                        <th className="p-2 border-b border-gray-600 text-center">Description</th>
+                        <th className="p-2 border-b border-gray-600 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {questionnaires.map((question) => (
-                        <tr className="bg-gray-300 border-b border-gray-400" key={question.id}>
-                        <td className="p-2">{question.title}</td>
-                        <td className="p-2">{question.description}</td>
-                        <br/>
-                        <td className="flex justify-center items-center space-x-1 p-2">
-                            <button onClick={() => alert('Edit ' + question.title)} className="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">✏️</button>
-                            <button onClick={() => alert('Delete ' + question.title)} className="p-2 bg-red-500 text-white rounded hover:bg-red-700">🗑️</button>
-                        </td>
-                    </tr>
+                        <tr key={question.id} className="bg-gray-300 border-b border-gray-400 text-center">
+                            <td className="p-2">{question.name}</td>
+                            <td className="p-2">{question.description}</td>
+                            <td className="flex justify-center items-center space-x-1 p-2">
+                                <button onClick={() => alert('Edit ' + question.name)} className="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">✏️</button>
+                                <button onClick={() => handleDelete(question.id)} className="p-2 bg-red-500 text-white rounded hover:bg-red-700">🗑️</button>
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </table>
@@ -42,10 +63,9 @@ export default function Questionnaire() {
                 </button>
 
                 <Modal show={showModal} handleClose={handleCloseModal}>
-                    <NewQestioannireForm />
+                    <NewQuestionnaireForm />
                 </Modal>
             </div>
         </div>
     );
 }
-
