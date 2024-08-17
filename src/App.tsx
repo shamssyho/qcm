@@ -20,6 +20,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import QuestionnaireDetail from './pages/admin/questionnaire/QuestionnaireDetail';
 import NewQuestionnaireForm from './pages/admin/questionnaire/NewQuestionnaireForm';
 import { QuestionProvider } from './services/QuestionContext';
+import Home from './pages/Home';
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
       <AuthProvider>
         <QuestionProvider>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
             <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
