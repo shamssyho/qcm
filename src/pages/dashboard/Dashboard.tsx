@@ -1,5 +1,5 @@
 import ColoredBox from '../../components/ColoredBox';
-import mockStagiaires from '../../assets/mockStagiares';
+import { mockStagiaires } from '../../assets/mockStagiares';
 
 const Dashboard = () => {
   const totalStagiaires = mockStagiaires.length;

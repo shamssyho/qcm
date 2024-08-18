@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import mockStagiaires from '../../../assets/mockStagiares';
+import { mockStagiaires } from '../../../assets/mockStagiares';
 
 const DetailsStagiaire: React.FC = () => {
     const { id } = useParams<{ id: string }>();

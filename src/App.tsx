@@ -21,6 +21,8 @@ import QuestionnaireDetail from './pages/admin/questionnaire/QuestionnaireDetail
 import NewQuestionnaireForm from './pages/admin/questionnaire/NewQuestionnaireForm';
 import { QuestionProvider } from './services/QuestionContext';
 import Home from './pages/Home';
+import QuestionnairePage from './pages/stagiaire/QuestionnairePage';
+import QuestionnaireStagiaire from './pages/stagiaire/QuestionnaireStagiaire';
 function App() {
 
   return (
@@ -42,7 +44,6 @@ function App() {
             <Route path="//questions/:id" element={<QuestionDetail />} />
 
             <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
-            <Route path="/question/stagiaire" element={<QuestionPageStagiaire />} />
             <Route path="/results" element={<Results />} />
             <Route path="/results-final" element={<ResultsPage />} />
             <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['admin']} />} />
@@ -52,6 +53,10 @@ function App() {
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="*" element={<Error404 />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/stagiaire-questionnaire" element={<QuestionnairePage />} />
+            <Route path="/questionnaire" element={<QuestionnaireStagiaire />} />
+            {/* <Route path="/questionnaire/:id_questionnaire/questions" element={<QuestionnaireQuestionsPage />} /> */}
+            <Route path="/questionnaire/:id_questionnaire/questions" element={<QuestionPageStagiaire />} />
           </Routes>
         </QuestionProvider>
       </AuthProvider>
