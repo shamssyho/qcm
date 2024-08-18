@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import mockStagiaires from '../../../assets/mockStagiares';
+import { mockStagiaires } from '../../../assets/mockStagiares';
 import { StagiairesI } from '../../../interfaces/StagiairesI';
 import { Link, useNavigate } from "react-router-dom";
 import NouveauStagiaireModal from './NouveauStagiaireModal';
