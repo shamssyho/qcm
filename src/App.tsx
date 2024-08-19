@@ -34,7 +34,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
             <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
-            <Route path="/new-question" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
+            <Route path="/new-question/:id" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
             <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['admin']} />} />
             {/* <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} /> */}
             {/* <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} /> */}

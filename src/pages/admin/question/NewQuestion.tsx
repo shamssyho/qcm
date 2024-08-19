@@ -1,23 +1,44 @@
 // components/newQuestion/NewQuestion.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { mockQuestions } from '../../../assets/mockQuestions';
+import { createQuestion, fetchQuestionnaireById } from '../../../services/api';
 
 const NewQuestion: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const questionnaireId = parseInt(id ?? '', 10);
     const navigate = useNavigate();
 
+    const [questionnaire, setQuestionnaire] = useState(null);
     const [questionText, setQuestionText] = useState('');
     const [numberOfAnswers, setNumberOfAnswers] = useState(2);
     const [answers, setAnswers] = useState<string[]>(['', '']);
     const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchQuestionnaire = async () => {
+            try {
+                const data = await fetchQuestionnaireById(questionnaireId);
+                console.log("QUESTIONNAIRE BY ID : ", data);
+                
+                setQuestionnaire(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Failed to fetch questionnaire details:', error);
+            }
+        };
+
+        if (questionnaireId) {
+            fetchQuestionnaire();
+        }
+    }, [questionnaireId]);
+
     const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuestionText(e.target.value);
     };
 
-    const handleNumberOfAnswersChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    /* const handleNumberOfAnswersChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newNumberOfAnswers = parseInt(e.target.value, 10);
         setNumberOfAnswers(newNumberOfAnswers);
         if (newNumberOfAnswers > answers.length) {
@@ -25,6 +46,11 @@ const NewQuestion: React.FC = () => {
         } else {
             setAnswers(answers.slice(0, newNumberOfAnswers));
         }
+    }; */
+    const handleNumberOfAnswersChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newNumberOfAnswers = parseInt(e.target.value, 10);
+        setNumberOfAnswers(newNumberOfAnswers);
+        setAnswers(answers.slice(0, newNumberOfAnswers).concat(Array(newNumberOfAnswers - answers.length).fill('')));
     };
 
     const handleAnswerChange = (index: number, value: string) => {
@@ -33,7 +59,7 @@ const NewQuestion: React.FC = () => {
         setAnswers(newAnswers);
     };
 
-    const handleCorrectAnswerChange = (index: number) => {
+    /* const handleCorrectAnswerChange = (index: number) => {
         setCorrectAnswers(prevCorrectAnswers => {
             if (prevCorrectAnswers.includes(index)) {
                 return prevCorrectAnswers.filter(answerIndex => answerIndex !== index);
@@ -41,9 +67,16 @@ const NewQuestion: React.FC = () => {
                 return [...prevCorrectAnswers, index];
             }
         });
+    }; */
+    const handleCorrectAnswerChange = (index: number) => {
+        if (correctAnswers.includes(index)) {
+            setCorrectAnswers(correctAnswers.filter(answerIndex => answerIndex !== index));
+        } else {
+            setCorrectAnswers([...correctAnswers, index]);
+        }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    /* const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (correctAnswers.length === 0) {
@@ -64,7 +97,50 @@ const NewQuestion: React.FC = () => {
 
         mockQuestions.push(newQuestion);
         navigate(`/questionnaire/${questionnaireId}`);
+    }; */
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!questionnaire) {
+            alert('Questionnaire details are not loaded.');
+            return;
+        }
+        if (correctAnswers.length === 0) {
+            alert('Please select at least one correct answer.');
+            return;
+        }
+
+        const questionData = {
+            questionnaire: {
+                id: questionnaire.id,
+                name: questionnaire.name,
+                description: questionnaire.description
+            },
+            questionTexte: questionText,
+            choix: answers,
+            nbreReponses: numberOfAnswers,
+            reponsesCorrectes: correctAnswers
+        };
+
+        try {
+            const savedQuestion = await createQuestion(questionData);
+            console.log("Savved Question : ", savedQuestion);
+            
+            alert('Question created successfully!');
+            navigate(`/questionnaire/${questionnaireId}`);
+        } catch (error) {
+            console.error('Failed to create question:', error);
+            alert('Failed to create question.');
+        }
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    
+    if (!questionnaire) {
+        return <div>Questionnaire not found</div>;
+    }
 
     return (
         <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">

@@ -1,24 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuestions } from '../../../services/QuestionContext';
+import { deleteQuestion, fetchQuestionById, updateQuestion } from '../../../services/api';
 
 const QuestionDetail: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    /* const { id } = useParams<{ id: string }>();
     const questionId = parseInt(id ?? '', 10);
     const { questions, deleteQuestion, updateQuestion } = useQuestions();
+    const [question, setQuestion] = useState(null);
     const question = questions.find(q => q.id_question === questionId);
     const navigate = useNavigate();
 
     const initialSelectedAnswers = question ? question.bonne_reponse.map(index => question.choix[index]) : [];
     const [selectedAnswers, setSelectedAnswers] = useState<string[]>(initialSelectedAnswers);
     const [texteQuestion, setTexteQuestion] = useState(question?.texte_question || '');
-    const [choix, setChoix] = useState(question?.choix || []);
+    const [choix, setChoix] = useState(question?.choix || []); */
+    const { id } = useParams<{ id: string }>();
+    const questionId = parseInt(id, 10);
+    const navigate = useNavigate();
+
+    const [question, setQuestion] = useState(null);
+    const [texteQuestion, setTexteQuestion] = useState('');
+    const [choix, setChoix] = useState([]);
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+    useEffect(() => {
+        const loadQuestion = async () => {
+            if (!isNaN(questionId)) {
+                try {
+                    const fetchedQuestion = await fetchQuestionById(questionId);
+                    setQuestion(fetchedQuestion);
+                    setTexteQuestion(fetchedQuestion.questionTexte);
+                    setChoix(fetchedQuestion.choix);
+                    setSelectedAnswers(fetchedQuestion.reponsesCorrectes.map(index => fetchedQuestion.choix[index]));
+                } catch (error) {
+                    console.error('Failed to fetch question:', error);
+                    alert('Failed to load question details.');
+                }
+            }
+        };
+        loadQuestion();
+    }, [questionId]);
 
     if (!question) {
-        return <div>Question non trouvée</div>;
+        return <div>Loading question details...</div>;
     }
 
-    const handleSave = () => {
+    /* const handleSave = () => {
         const updatedQuestion = {
             ...question,
             texte_question: texteQuestion,
@@ -28,14 +55,44 @@ const QuestionDetail: React.FC = () => {
 
         updateQuestion(updatedQuestion);
         navigate('/questions');
+    }; */
+
+    const handleSave = async () => {
+        const updatedQuestion = {
+            ...question,
+            questionTexte: texteQuestion,
+            choix,
+            reponsesCorrectes: choix.map((c, index) => selectedAnswers.includes(c) ? index : -1).filter(index => index !== -1),
+        };
+        try {
+            await updateQuestion(question.id, updatedQuestion);
+            alert('Question updated successfully!');
+            navigate('/questions');
+        } catch (error) {
+            console.error('Failed to update question:', error);
+            alert('Failed to update question.');
+        }
     };
 
-    const handleDelete = () => {
+    /* const handleDelete = () => {
         deleteQuestion(question.id_question);
         navigate('/questions');
+    }; */
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this question?')) {
+            try {
+                await deleteQuestion(question.id);
+                alert('Question deleted successfully!');
+                navigate('/questions');
+            } catch (error) {
+                console.error('Failed to delete question:', error);
+                alert('Failed to delete question.');
+            }
+        }
     };
 
-    const handleCheckboxChange = (choix: string) => {
+    /* const handleCheckboxChange = (choix: string) => {
         setSelectedAnswers(prevSelectedAnswers => {
             if (prevSelectedAnswers.includes(choix)) {
                 return prevSelectedAnswers.filter(answer => answer !== choix);
@@ -43,6 +100,10 @@ const QuestionDetail: React.FC = () => {
                 return [...prevSelectedAnswers, choix];
             }
         });
+    };*/
+
+    const handleCheckboxChange = (choixText) => {
+        setSelectedAnswers(prev => prev.includes(choixText) ? prev.filter(c => c !== choixText) : [...prev, choixText]);
     };
 
     const handleChoixChange = (index: number, value: string) => {
@@ -57,7 +118,7 @@ const QuestionDetail: React.FC = () => {
             <div>
                 <div className="mb-4">
                     <label className="block text-gray-600" htmlFor="idQuestionnaire">ID Questionnaire:</label>
-                    <span id="idQuestionnaire" className="block text-lg font-semibold mb-4">{question.id_questionnaire}</span>
+                    <span id="idQuestionnaire" className="block text-lg font-semibold mb-4">{question.questionnaire.id}</span>
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-600" htmlFor="texteQuestion">Question:</label>
@@ -71,7 +132,7 @@ const QuestionDetail: React.FC = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-600" htmlFor="nombreReponses">Nombre de Réponses:</label>
-                    <span id="nombreReponses" className="block text-lg font-semibold mb-4">{question.nbre_reponses}</span>
+                    <span id="nombreReponses" className="block text-lg font-semibold mb-4">{question.nbreReponses               }</span>
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-600" htmlFor="Choix">Choix:</label>
