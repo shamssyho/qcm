@@ -1,12 +1,7 @@
+import { StagiairesI } from "../interfaces/StagiairesI";
 const API_URL = 'http://localhost:3000/api'; // Base URL for the API
 
-interface Stagiaire {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  isActive: boolean;
-}
+// ################################ Questionnaire ###################################### //
 
 export const fetchQuestionnaires = async () => {
     const response = await fetch(`${API_URL}/questionnaires`);
@@ -66,56 +61,62 @@ export const deleteQuestionnaire = async (id: number) => {
   }
 };
 
+// ############################## Stagiaire ##################################### //
 
-
-// Fetch all stagiaires
-export const fetchStagiaires = async (): Promise<Stagiaire[]> => {
+// Obtenir tous les stagiaires
+export const fetchAllStagiaires = async () => {
   const response = await fetch(`${API_URL}/stagiaires`);
   if (!response.ok) {
-    throw new Error('Failed to fetch stagiaires');
+      throw new Error('Failed to fetch stagiaires');
   }
-  return response.json();
-}
+  return await response.json();
+};
 
-// Add a new stagiaire
-export const addStagiaire = async (stagiaire: Stagiaire): Promise<Stagiaire> => {
+// Ajouter un stagiaire
+export const addStagiaire = async (stagiaireData: StagiairesI): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(stagiaire)
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(stagiaireData)
   });
   if (!response.ok) {
-    throw new Error('Failed to add stagiaire');
+      const errorMessage = await response.text();
+      throw new Error(`Failed to add stagiaire: ${errorMessage}`);
   }
   return response.json();
-}
+};
 
-// Update a stagiaire
-export const updateStagiaire = async (id: number, stagiaire: Stagiaire): Promise<Stagiaire> => {
+// Mettre à jour un stagiaire
+export const updateStagiaire = async (id: number, stagiaireDetails: StagiairesI): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(stagiaire)
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(stagiaireDetails)
   });
   if (!response.ok) {
-    throw new Error('Failed to update stagiaire');
+      const errorMessage = await response.text();
+      throw new Error(`Failed to update stagiaire: ${errorMessage}`);
   }
   return response.json();
-}
+};
 
-// Delete a stagiaire
-export const deleteStagiaire = async (id: number): Promise<void> => {
-  const response = await fetch(`${API_URL}/stagiaires/${id}`, {
-    method: 'DELETE'
+
+// Désactiver un stagiaire
+export const deactivateStagiaire = async (id: number): Promise<boolean> => {
+  const response = await fetch(`${API_URL}/stagiaires/${id}/deactivate`, {
+      method: 'PUT',
   });
   if (!response.ok) {
-    throw new Error('Failed to delete stagiaire');
+      const errorMessage = await response.text();
+      throw new Error(`Failed to deactivate stagiaire: ${errorMessage}`);
   }
-}
+  return response.ok;
+};
+
 
 
 // ##################################### Question ###################################### //
