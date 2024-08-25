@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AdminView from './admin/AdminView';
 
 const Home: React.FC = () => {
+    const [role, setRole] = useState<string | null>(null);
+
+    const handleSelectRole = (selectedRole: string) => {
+        setRole(selectedRole);
+    };
+
+    if (role === 'admin') {
+        return <AdminView />;
+    }
+
+    if (role === 'stagiaire') {
+        return <StagiaireView />;
+    }
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white shadow-md rounded-lg p-8 max-w-3xl text-center">
@@ -43,6 +57,7 @@ const Home: React.FC = () => {
                     </Link>
                 </div>
             </div>
+
         </div>
     );
 };

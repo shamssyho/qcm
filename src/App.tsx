@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './pages/Shared/Navbar';
-import { AuthProvider } from './services/AuthProvider'
+import { AuthProvider } from './services/AuthProvider';
 import Login from './pages/login/Login';
 import AdminPage from './pages/admin/AdminPage';
 import PrivateRoute from './pages/PrivateRoutes';
@@ -23,46 +23,46 @@ import { QuestionProvider } from './services/QuestionContext';
 import Home from './pages/Home';
 import QuestionnairePage from './pages/stagiaire/QuestionnairePage';
 import QuestionnaireStagiaire from './pages/stagiaire/QuestionnaireStagiaire';
-function App() {
 
+function App() {
   return (
     <div className='bg-gray-100 min-h-screen'>
-
-      <Navbar />
       <AuthProvider>
         <QuestionProvider>
+          <Navbar />
+          {/* Navbar should be conditionally rendered depending on the role */}
           <Routes>
+            {/* General Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
-            <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
-            <Route path="/new-question/:id" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
-            <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['admin']} />} />
-            {/* <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} /> */}
-            {/* <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} /> */}
-            <Route path="/questions" element={<ListeQuestions />} />
-            <Route path="//questions/:id" element={<QuestionDetail />} />
-
-            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/results-final" element={<ResultsPage />} />
-            <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['admin']} />} />
-            <Route path="/question/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} />
-            <Route path="/new-questionnaire" element={<NewQuestionnaireForm onSave={() => { }} onClose={() => { }} />} />
-            <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin']} />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="*" element={<Error404 />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            {/* Admin-specific Routes */}
+            <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
+            <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin']} />} />
+            <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
+            <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['admin']} />} />
+            <Route path="/new-questionnaire" element={<PrivateRoute element={NewQuestionnaireForm} roles={['admin']} />} />
+            <Route path="/new-question/:id" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
+            <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} />
+            <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} />
+            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
+            <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['admin']} />} />
+
+            {/* Stagiaire-specific Routes */}
+            <Route path="/results" element={<Results />} />
+            <Route path="/results-final" element={<ResultsPage />} />
             <Route path="/stagiaire-questionnaire" element={<QuestionnairePage />} />
-            <Route path="/questionnaire" element={<QuestionnaireStagiaire />} />
-            {/* <Route path="/questionnaire/:id_questionnaire/questions" element={<QuestionnaireQuestionsPage />} /> */}
             <Route path="/questionnaire/:id_questionnaire/questions" element={<QuestionPageStagiaire />} />
           </Routes>
+
+
         </QuestionProvider>
       </AuthProvider>
-
     </div>
-  )
+  );
 }
 
 export default App;
