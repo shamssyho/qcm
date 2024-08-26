@@ -13,10 +13,10 @@ export default function Questionnaire() {
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => { 
+    useEffect(() => {
         loadQuestionnairesFromAPI();
     }, []);
-    
+
     // Récupération des questionnaire de la BDD
     const loadQuestionnairesFromAPI = async () => {
         try {
@@ -75,7 +75,7 @@ export default function Questionnaire() {
             if (isEditing && currentQuestionnaire) {
                 // Mise à jour du questionnaire existant
                 const updatedQuestionnaire = await updateQuestionnaire(currentQuestionnaire.id, newQuestionnaire);
-                setQuestionnaires(questionnaires.map(q => 
+                setQuestionnaires(questionnaires.map(q =>
                     q.id === currentQuestionnaire.id ? updatedQuestionnaire : q
                 ));
             } else {
@@ -105,7 +105,7 @@ export default function Questionnaire() {
             }
         }
     };
-    
+
 
     const handleEditQuestionnaire = (questionnaire: QuestionnairesI) => {
         setCurrentQuestionnaire(questionnaire);

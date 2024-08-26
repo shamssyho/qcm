@@ -72,7 +72,7 @@ const QuestionnaireDetail: React.FC = () => {
                             <tr key={question.id_question} className="even:bg-gray-100 odd:bg-white hover:bg-gray-300">
                                 <td className="border border-gray-300 p-2">{question.questionTexte}</td>
                                 <td className="border border-gray-300 p-2">
-                                    <Link to={`/question/${question.id}`} className="text-blue-500 hover:text-blue-800">Modifier</Link>
+                                    <Link to={`/questions/${question.id}`} className="text-blue-500 hover:text-blue-800">Modifier</Link>
                                     {' | '}
                                     <button className="text-red-500 hover:text-red-800" onClick={() => handleDeleteQuestion(question.id)}>
                                         Supprimer
