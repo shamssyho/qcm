@@ -13,8 +13,8 @@ const ListeStagiaires: React.FC = () => {
 
     useEffect(() => {
         const loadStagiaires = async () => {
-            const activeStagiaires = await fetchAllStagiaires();
-            setStagiaires(activeStagiaires.filter(stagiaire => stagiaire.active));
+            const allStagiaires = await fetchAllStagiaires();  // Fetch all stagiaires regardless of active status
+            setStagiaires(allStagiaires);  // Store all fetched stagiaires in state
         };
 
         loadStagiaires();
@@ -37,55 +37,28 @@ const ListeStagiaires: React.FC = () => {
         navigate(`/stagiaire/${id}`);
     };
 
-    /* const handleOpenModal = (stagiaire?: StagiairesI) => {
-        if (stagiaire) {
-            setCurrentStagiaire(stagiaire);
-            setIsEditMode(true);
-        } else {
-            setCurrentStagiaire(null);
-            setIsEditMode(false);
-        }
-        setIsModalOpen(true);
-    }; */
-
     const handleOpenModal = (stagiaire?: StagiairesI) => {
         if (stagiaire) {
-            // Format the date for the input[type="date"] if necessary
             const formattedDate = stagiaire.dateCreated.split('T')[0]; // Adjust based on your actual date format
             setCurrentStagiaire({ ...stagiaire, dateCreated: formattedDate });
             setIsEditMode(true);
         } else {
-            setCurrentStagiaire({ id: 0, firstName: '', lastName: '', email: '', dateCreated: getCurrentDate(), active: true }); // Ensure all fields are set to default or empty
+            setCurrentStagiaire({ id: 0, firstName: '', lastName: '', email: '', dateCreated: getCurrentDate(), active: true });
             setIsEditMode(false);
         }
         setIsModalOpen(true);
     };
-    
+
     function getCurrentDate() {
         const today = new Date();
         return `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
     }
-    
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
-    /* const handleSaveStagiaire = (newStagiaire: StagiairesI) => {
-        // Ajouter l'appel API pour sauvegarder le stagiaire
-        if (isEditMode && currentStagiaire) {
-            const updatedStagiaires = stagiaires.map(stagiaire =>
-                stagiaire.id === currentStagiaire.id ? newStagiaire : stagiaire
-            );
-            setStagiaires(updatedStagiaires);
-        } else {
-            setStagiaires([...stagiaires, newStagiaire]);
-        }
-        handleCloseModal();
-    }; */
-
     const handleSaveStagiaire = async (newStagiaire: StagiairesI) => {
-
         try {
             if (isEditMode && currentStagiaire) {
                 const savedStagiaire = await updateStagiaire(currentStagiaire.id, newStagiaire);
@@ -103,7 +76,6 @@ const ListeStagiaires: React.FC = () => {
             alert('Failed to save stagiaire');
         }
     };
-    
 
     return (
         <div className="p-5 bg-gray-200 mx-auto my-0 mt-24 rounded-2xl text-gray-800 w-11/12 md:w-2/3">
@@ -123,6 +95,7 @@ const ListeStagiaires: React.FC = () => {
                             <th scope="col" className="border border-gray-300 p-2">Nom</th>
                             <th scope="col" className="border border-gray-300 p-2">Prénom</th>
                             <th scope="col" className="border border-gray-300 p-2">Date de début</th>
+                            <th scope="col" className="border border-gray-300 p-2">Actif</th>
                             <th scope="col" className="border border-gray-300 p-2">Action</th>
                         </tr>
                     </thead>
@@ -132,12 +105,13 @@ const ListeStagiaires: React.FC = () => {
                                 <td className="border border-gray-300 p-2">{stagiaire.lastName}</td>
                                 <td className="border border-gray-300 p-2">{stagiaire.firstName}</td>
                                 <td className="border border-gray-300 p-2">{stagiaire.dateCreated}</td>
+                                <td className="border border-gray-300 p-2">{stagiaire.active ? 'Oui' : 'Non'}</td>
                                 <td className="border border-gray-300 p-2">
-                                    <Link to="#" className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id)}>Voir</Link>
+                                    <Link to={`/stagiaire/${stagiaire.id}`} className="text-blue-500 hover:text-blue-800" onClick={() => handleView(stagiaire.id)}>Voir</Link>
                                     {' | '}
                                     <button className="text-yellow-500 hover:text-yellow-800" onClick={() => handleOpenModal(stagiaire)}>Modifier</button>
                                     {' | '}
-                                    <button className="text-red-500 hover:text-red-800"onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
+                                    <button className="text-red-500 hover:text-red-800" onClick={() => handleDelete(stagiaire.id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}

@@ -72,6 +72,15 @@ export const fetchAllStagiaires = async () => {
   return await response.json();
 };
 
+// Fetch a single stagiaire's details
+export const fetchStagiaireById = async (id: number): Promise<StagiairesI> => {
+  const response = await fetch(`${API_URL}/stagiaires/${id}`);
+  if (!response.ok) {
+      throw new Error('Failed to fetch stagiaire details');
+  }
+  return await response.json();
+};
+
 // Ajouter un stagiaire
 export const addStagiaire = async (stagiaireData: StagiairesI): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires`, {
@@ -117,7 +126,16 @@ export const deactivateStagiaire = async (id: number): Promise<boolean> => {
   return response.ok;
 };
 
+// ################################### Reponse Stagiaire ################################## //
 
+// Fetch responses by stagiaire ID
+export const fetchResponsesByStagiaireId = async (stagiaireId: number) => {
+  const response = await fetch(`${API_URL}/reponses/stagiaire/${stagiaireId}`);
+  if (!response.ok) {
+      throw new Error('Failed to fetch responses');
+  }
+  return await response.json();
+};
 
 // ##################################### Question ###################################### //
 

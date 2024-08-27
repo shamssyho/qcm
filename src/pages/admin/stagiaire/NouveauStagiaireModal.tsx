@@ -15,14 +15,7 @@ const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave, 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [dateCreated, setDateCreated] = useState('');
-
-    /* function getCurrentDate(): string {
-        const today = new Date();
-        const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        const year = today.getFullYear();
-        return `${year}-${month}-${day}`;
-    } */
+    const [isActive, setIsActive] = useState(true);
 
     useEffect(() => {
         if (initialData) {
@@ -31,15 +24,9 @@ const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave, 
             setEmail(initialData.email);
             setDateCreated(initialData.dateCreated);
             setPassword(initialData.password);
+            setIsActive(initialData.active);
         }
     }, [initialData]);
-
-    /* const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const formattedDate = dateDebut.split('-').reverse().join('/');
-        onSave({ id_stagiaire: Date.now(), nom, prenom, date_created: formattedDate });
-        onClose();
-    }; */
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,7 +37,7 @@ const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave, 
             email,
             password,
             dateCreated: dateCreated || new Date().toISOString(),  // Utiliser la date actuelle si aucune date n'est fournie
-            active: initialData ? initialData.active : true  // Assume true si c'est un nouvel ajout
+            active: isActive
         };
         onSave(newStagiaire);
         onClose();
@@ -111,6 +98,22 @@ const NouveauStagiaireModal: React.FC<StagiaireFormProps> = ({ onClose, onSave, 
                             required
                         />
                     </div>
+                    
+                    {isEditMode && (
+                        <div className="mb-4">
+                            <label className="block text-gray-700 mb-2">Actif</label>
+                            <select
+                                value={isActive ? 'actif' : 'inactif'}
+                                onChange={(e) => setIsActive(e.target.value === 'actif')}
+                                className="w-full p-2 border border-gray-300 rounded"
+                            >
+                                <option value="actif">Actif</option>
+                                <option value="inactif">Inactif</option>
+                            </select>
+                        </div>
+                    )}
+
+                    {/* Boutons de soumission et annulation */}
                     <div className="flex justify-end">
                         <button
                             type="button"
