@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Option from '../../components/options/Options';
-import { fetchQuestionsByQuestionnaire } from '../../services/api';
+import { fetchQuestionsByQuestionnaire, submitReponse } from '../../services/api';
+import { fetchStagiaireById } from '../../services/api'; // Assurez-vous d'importer cette fonction
 
 const QuestionStagiaire: React.FC = () => {
     const { id_questionnaire } = useParams<{ id_questionnaire: string }>();
@@ -12,6 +13,7 @@ const QuestionStagiaire: React.FC = () => {
     const [isFinished, setIsFinished] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [timeLeft, setTimeLeft] = useState(0);
+    const [stagiaire, setStagiaire] = useState<any>(null);
 
     useEffect(() => {
         const getQuestions = async () => {
@@ -29,6 +31,8 @@ const QuestionStagiaire: React.FC = () => {
 
         getQuestions();
     }, [id_questionnaire]);
+
+
 
     useEffect(() => {
         if (questions.length > 0) {
@@ -57,19 +61,28 @@ const QuestionStagiaire: React.FC = () => {
         }
     };
 
-    const handleNextQuestion = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            if (checkAnswer()) {
-                setScore(score + 1);
+    const handleNextQuestion = async () => {
+
+        // Soumettre la réponse actuelle
+        try {
+            await submitReponse(questions[currentQuestionIndex], selectedOptions);
+
+            if (currentQuestionIndex < questions.length - 1) {
+                if (checkAnswer()) {
+                    setScore(score + 1);
+                }
+                setCurrentQuestionIndex(currentQuestionIndex + 1);
+                setSelectedOptions([]);
+            } else {
+                if (checkAnswer()) {
+                    setScore(score + 1);
+                }
+                handleFinish();
             }
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedOptions([]);
-        } else {
-            if (checkAnswer()) {
-                setScore(score + 1);
-            }
-            handleFinish();
+        } catch (error) {
+            console.error('Error submitting response:', error);
         }
+
     };
 
     const handlePreviousQuestion = () => {
@@ -144,7 +157,7 @@ const QuestionStagiaire: React.FC = () => {
                 </div>
                 <div className="flex justify-center mt-4">
                     {[...Array(questions.length)].map((_, index) => (
-                        <span key={index} className={`mx-1 ${index === currentQuestionIndex ? 'text-black' : 'text-gray-500'}`}>
+                        <span key={index} className={`mx-1 ${index === currentQuestionIndex ? 'text-black' : 'text-gray-400'}`}>
                             {index + 1}
                         </span>
                     ))}
@@ -152,14 +165,14 @@ const QuestionStagiaire: React.FC = () => {
                 <div className="flex justify-between mt-4">
                     <button
                         onClick={handlePreviousQuestion}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
                         disabled={currentQuestionIndex === 0}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400"
                     >
                         Précédent
                     </button>
                     <button
                         onClick={handleNextQuestion}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
                     >
                         {currentQuestionIndex === questions.length - 1 ? 'Terminer' : 'Suivant'}
                     </button>

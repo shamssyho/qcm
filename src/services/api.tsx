@@ -4,13 +4,13 @@ const API_URL = 'http://localhost:3000/api'; // Base URL for the API
 // ################################ Questionnaire ###################################### //
 
 export const fetchQuestionnaires = async () => {
-    const response = await fetch(`${API_URL}/questionnaires`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch questionnaires');
-    }
-    const data = await response.json();
-    console.log('Response data:', data); // Affichez les données pour déboguer
-    return data;
+  const response = await fetch(`${API_URL}/questionnaires`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch questionnaires');
+  }
+  const data = await response.json();
+  console.log('Response data:', data); // Affichez les données pour déboguer
+  return data;
 };
 
 
@@ -20,7 +20,7 @@ export const fetchQuestionnaireById = async (id: number) => {
     throw new Error(`Failed to fetch questionnaire with ID: ${id}`);
   }
   console.log('QUESTIONNaireeee BY ID : ', response);
-  
+
   return await response.json();
 };
 
@@ -67,7 +67,7 @@ export const deleteQuestionnaire = async (id: number) => {
 export const fetchAllStagiaires = async () => {
   const response = await fetch(`${API_URL}/stagiaires`);
   if (!response.ok) {
-      throw new Error('Failed to fetch stagiaires');
+    throw new Error('Failed to fetch stagiaires');
   }
   return await response.json();
 };
@@ -76,7 +76,7 @@ export const fetchAllStagiaires = async () => {
 export const fetchStagiaireById = async (id: number): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires/${id}`);
   if (!response.ok) {
-      throw new Error('Failed to fetch stagiaire details');
+    throw new Error('Failed to fetch stagiaire details');
   }
   return await response.json();
 };
@@ -84,15 +84,15 @@ export const fetchStagiaireById = async (id: number): Promise<StagiairesI> => {
 // Ajouter un stagiaire
 export const addStagiaire = async (stagiaireData: StagiairesI): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(stagiaireData)
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(stagiaireData)
   });
   if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Failed to add stagiaire: ${errorMessage}`);
+    const errorMessage = await response.text();
+    throw new Error(`Failed to add stagiaire: ${errorMessage}`);
   }
   return response.json();
 };
@@ -100,15 +100,15 @@ export const addStagiaire = async (stagiaireData: StagiairesI): Promise<Stagiair
 // Mettre à jour un stagiaire
 export const updateStagiaire = async (id: number, stagiaireDetails: StagiairesI): Promise<StagiairesI> => {
   const response = await fetch(`${API_URL}/stagiaires/${id}`, {
-      method: 'PUT',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(stagiaireDetails)
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(stagiaireDetails)
   });
   if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Failed to update stagiaire: ${errorMessage}`);
+    const errorMessage = await response.text();
+    throw new Error(`Failed to update stagiaire: ${errorMessage}`);
   }
   return response.json();
 };
@@ -117,11 +117,11 @@ export const updateStagiaire = async (id: number, stagiaireDetails: StagiairesI)
 // Désactiver un stagiaire
 export const deactivateStagiaire = async (id: number): Promise<boolean> => {
   const response = await fetch(`${API_URL}/stagiaires/${id}/deactivate`, {
-      method: 'PUT',
+    method: 'PUT',
   });
   if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Failed to deactivate stagiaire: ${errorMessage}`);
+    const errorMessage = await response.text();
+    throw new Error(`Failed to deactivate stagiaire: ${errorMessage}`);
   }
   return response.ok;
 };
@@ -132,7 +132,7 @@ export const deactivateStagiaire = async (id: number): Promise<boolean> => {
 export const fetchResponsesByStagiaireId = async (stagiaireId: number) => {
   const response = await fetch(`${API_URL}/reponses/stagiaire/${stagiaireId}`);
   if (!response.ok) {
-      throw new Error('Failed to fetch responses');
+    throw new Error('Failed to fetch responses');
   }
   return await response.json();
 };
@@ -141,70 +141,112 @@ export const fetchResponsesByStagiaireId = async (stagiaireId: number) => {
 
 // Obtenir toutes les questions
 export const fetchAllQuestions = async () => {
-    const response = await fetch(`${API_URL}/questions`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch questions');
-    }
-    return await response.json();
+  const response = await fetch(`${API_URL}/questions`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch questions');
+  }
+  return await response.json();
 };
 
 // Obtenir une question par ID
 export const fetchQuestionById = async (id: number) => {
-    const response = await fetch(`${API_URL}/questions/${id}`);
-    if (!response.ok) {
-        throw new Error(`Failed to fetch question with ID ${id}`);
-    }
-    
-    return await response.json();
+  const response = await fetch(`${API_URL}/questions/${id}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch question with ID ${id}`);
+  }
+
+  return await response.json();
 };
 
 // Créer une nouvelle question
 export const createQuestion = async (question: { questionTexte: string; choix: string[]; nbreReponses: number; reponsesCorrectes: number[] }) => {
-    const response = await fetch(`${API_URL}/questions`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(question)
-    });
-    if (!response.ok) {
-        throw new Error('Failed to create question');
-    }
-    return await response.json();
+  const response = await fetch(`${API_URL}/questions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(question)
+  });
+  if (!response.ok) {
+    throw new Error('Failed to create question');
+  }
+  return await response.json();
 };
 
 // Mettre à jour une question
 export const updateQuestion = async (id: number, questionDetails: { questionTexte?: string; choix?: string[]; nbreReponses?: number; reponsesCorrectes?: number[] }) => {
-    const response = await fetch(`${API_URL}/questions/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(questionDetails)
-    });
-    if (!response.ok) {
-        throw new Error(`Failed to update question with ID ${id}`);
-    }
-    return await response.json();
+  const response = await fetch(`${API_URL}/questions/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(questionDetails)
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to update question with ID ${id}`);
+  }
+  return await response.json();
 };
 
 // Supprimer une question
 export const deleteQuestion = async (id: number) => {
-    const response = await fetch(`${API_URL}/questions/${id}`, {
-        method: 'DELETE',
-    });
-    if (!response.ok) {
-        throw new Error(`Failed to delete question with ID ${id}`);
-    }
-    return response;
+  const response = await fetch(`${API_URL}/questions/${id}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to delete question with ID ${id}`);
+  }
+  return response;
 };
 
 export const fetchQuestionsByQuestionnaire = async (questionnaireId) => {
-    const response = await fetch(`${API_URL}/questions/questionnaire/${questionnaireId}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch questions');
-    }
-    return await response.json();
+  const response = await fetch(`${API_URL}/questions/questionnaire/${questionnaireId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch questions');
+  }
+  return await response.json();
 };
 
-  
+
+// ################################### Reponse Stagiaire ################################## //
+
+export const submitReponse = async (question: any, selectedOptions: number[]) => {
+  // Création de la structure conforme aux attentes de l'API
+  const responsePayload = {
+    stagiaire: {
+      email: "andy@rapide.fr",
+      password: "andy",
+      firstName: "andy",
+      lastName: "andy",
+      id: 1, // ID du stagiaire
+      active: true
+    },
+    question: {
+      id: question.id,
+      questionnaire: {
+        id: question.questionnaireId, // Assurez-vous que l'objet `question` contient l'ID du questionnaire
+        name: question.questionnaireName, // Assurez-vous que l'objet `question` contient le nom du questionnaire
+        description: question.questionnaireDescription // Assurez-vous que l'objet `question` contient la description du questionnaire
+      },
+      questionTexte: question.questionTexte,
+      choix: question.choix,
+      nbreReponses: question.choix.length,
+      reponsesCorrectes: question.bonne_reponse
+    },
+    reponses: selectedOptions
+  };
+
+  const response = await fetch(`${API_URL}/reponses`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(responsePayload) // Envoi de la structure correcte à l'API
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to submit response');
+  }
+
+  return await response.json();
+};
