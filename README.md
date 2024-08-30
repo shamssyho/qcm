@@ -1,5 +1,33 @@
 # React + TypeScript + Vite
 
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+
+2. Navigate to the project directory and install dependencies :
+   npm i
+   # Or
+   npm install
+   # Or
+   yarn install
+      
+4. Start the Frontend 
+    npm run dev
+    # or
+    yarn dev
+
+## Default Test Accounts
+
+Admin Account
+Email: admin@example.com
+Password: admin
+
+Stagiaire Account
+Email: stagiaire@example.com
+Password: stagiaire
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
