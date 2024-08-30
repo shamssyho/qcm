@@ -14,6 +14,7 @@ interface AuthProviderProps {
 const fakeUsers = [
     { username: 'admin@example.com', password: 'admin', role: 'admin' },
     { username: 'stagiaire@example.com', password: 'stagiaire', role: 'stagiaire' },
+    { username: 'alann@exemple.com', password: 'alann', role: 'stagiaire' },
 ];
 
 export const AuthContext = createContext<AuthContextProps>({

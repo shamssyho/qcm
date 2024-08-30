@@ -250,3 +250,20 @@ export const submitReponse = async (question: any, selectedOptions: number[]) =>
 
   return await response.json();
 };
+
+// ################################### Resultat Stagiaire ################################## //
+
+export const fetchResultatTotal = async (questionnaireId: number) => {
+  const response = await fetch(`${API_URL}/resultats/calculer?questionnaireId=${questionnaireId}&stagiaireId=1`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch total result');
+  }
+
+  return await response.json(); // Retourne le résultat total
+};
