@@ -40,22 +40,22 @@ function App() {
             <Route path="*" element={<Error404 />} />
 
             {/* Admin-specific Routes */}
-            <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['admin']} />} />
-            <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['admin']} />} />
-            <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['admin']} />} />
-            <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['admin']} />} />
-            <Route path="/new-questionnaire" element={<PrivateRoute element={NewQuestionnaireForm} roles={['admin']} />} />
-            <Route path="/new-question/:id" element={<PrivateRoute element={NewQuestion} roles={['admin']} />} />
-            <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['admin']} />} />
-            <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['admin']} />} />
-            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['admin']} />} />
-            <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['admin']} />} />
+            <Route path="/admin" element={<PrivateRoute element={AdminPage} roles={['ROLE_ADMIN']} />} />
+            <Route path="/dashboard" element={<PrivateRoute element={DashboardPage} roles={['ROLE_ADMIN']} />} />
+            <Route path="/questionnaire" element={<PrivateRoute element={Questionnaire} roles={['ROLE_ADMIN']} />} />
+            <Route path="/questionnaire/:id" element={<PrivateRoute element={QuestionnaireDetail} roles={['ROLE_ADMIN']} />} />
+            <Route path="/new-questionnaire" element={<PrivateRoute element={NewQuestionnaireForm} roles={['ROLE_ADMIN']} />} />
+            <Route path="/new-question/:id" element={<PrivateRoute element={NewQuestion} roles={['ROLE_ADMIN']} />} />
+            <Route path="/questions" element={<PrivateRoute element={ListeQuestions} roles={['ROLE_ADMIN']} />} />
+            <Route path="/questions/:id" element={<PrivateRoute element={QuestionDetail} roles={['ROLE_ADMIN']} />} />
+            <Route path="/stagiaires" element={<PrivateRoute element={ListeStagiaires} roles={['ROLE_ADMIN']} />} />
+            <Route path="/stagiaire/:id" element={<PrivateRoute element={DetailsStagiaire} roles={['ROLE_ADMIN']} />} />
 
             {/* Stagiaire-specific Routes */}
-            <Route path="/results" element={<Results />} />
-            <Route path="/results-final" element={<ResultsPage />} />
-            <Route path="/stagiaire-questionnaire" element={<QuestionnairePage />} />
-            <Route path="/questionnaire/:id_questionnaire/questions" element={<QuestionPageStagiaire />} />
+            <Route path="/results" element={<PrivateRoute element={Results} roles={['ROLE_STAGIAIRE']} />} />
+            <Route path="/results-final" element={<PrivateRoute element={ResultsPage} roles={['ROLE_STAGIAIRE']} />} />
+            <Route path="/stagiaire-questionnaire" element={<PrivateRoute element={QuestionnairePage} roles={['ROLE_STAGIAIRE']} />} />
+            <Route path="/questionnaire/:id_questionnaire/questions" element={<PrivateRoute element={QuestionPageStagiaire} roles={['ROLE_STAGIAIRE']} />} />
           </Routes>
 
 
