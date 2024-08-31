@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<{ username: string; role: string } | null>(null);
     const navigate = useNavigate();
 
-    const login = (username: string, password: string) => {
+    /* const login = (username: string, password: string) => {
         const foundUser = fakeUsers.find(
             (u) => u.username === username && u.password === password
         );
@@ -41,11 +41,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } else {
             alert('Identifiants incorrects');
         }
-    };
+    }; */
 
     const logout = () => {
         setUser(null);
-        navigate('/login');
+        navigate('/login'); // assurez-vous que cette route est correctement configurée dans vos routes
+    };
+
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await fetch('http://localhost:3030/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to authenticate');
+            }
+
+            const data = await response.json();
+            console.log("DATA : ", data);
+            console.log("DATA Role: ", data.role);
+            
+            setUser({ email: data.email, role: data.role });
+
+            if (data.role === 'ROLE_ADMIN') {
+                navigate('/dashboard');
+            } else if (data.role === 'ROLE_STAGIAIRE') {
+                navigate('/stagiaire-questionnaire');
+            }
+        } catch (error) {
+            alert('Identifiants incorrects');
+            console.error('Login error:', error);
+        }
     };
 
     return (

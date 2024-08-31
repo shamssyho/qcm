@@ -3,7 +3,7 @@ import { useAuth } from '../../services/AuthProvider';
 import Logout from '../Logout';
 
 export default function Navbar() {
-    const { user } = useAuth(); // Récupérer l'utilisateur connecté
+    const { user, logout } = useAuth(); // Récupérer l'utilisateur connecté
 
     return (
         <div className="bg-blue-600 p-0 text-white sticky top-0 z-10 shadow-md">
@@ -12,7 +12,7 @@ export default function Navbar() {
             </div>
             <div className="bg-gray-800 overflow-hidden">
                 <ul className='list-none m-0 p-0 flex justify-center'>
-                    {user?.role === 'admin' && (
+                    {user?.role === 'ROLE_ADMIN' && (
                         <>
                             <li className='float-left'>
                                 <NavLink
@@ -73,7 +73,7 @@ export default function Navbar() {
                         </>
                     )}
 
-                    {user?.role === 'stagiaire' && (
+                    {user?.role === 'ROLE_STAGIAIRE' && (
                         <>
                             <li>
                                 <NavLink
@@ -104,7 +104,7 @@ export default function Navbar() {
                     {user && (
                         <li className='float-left'>
                             <button
-                                onClick={Logout}
+                                onClick={logout}
                                 className="text-white hover:bg-gray-200 hover:text-black block text-center px-5 py-3.5 text-decoration-none"
                             >
                                 Déconnexion

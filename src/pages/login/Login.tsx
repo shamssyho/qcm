@@ -1,14 +1,66 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../services/AuthProvider';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const { login } = useAuth();
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        login(email, password);
+        setLoading(true);
+        try {
+            await login(email, password);
+        } catch (e) {
+            setError('Échec de la connexion. Vérifiez vos identifiants.');
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="text-center flex justify-center">
+            <div className="bg-gray-50 rounded-xl m-12 mb-auto w-96 p-5">
+                <h2 className="text-2xl font-bold mb-10">Se connecter</h2>
+                {error && <p className="text-red-500">{error}</p>}
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required />
+                    </div>
+                    <div>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mot de passe" className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required />
+                    </div>
+                    <div className="text-sm mb-10">
+                        <Link to="/forgot-password" className="text-blue-600 hover:text-blue-800">Mot de passe oublié ? Cliquez ici</Link>
+                    </div>
+                    <button type="submit" className="w-full py-2.5 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50" disabled={loading}>
+                        {loading ? 'Connexion...' : 'SE CONNECTER'}
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+
+/* export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const { login } = useAuth();
+    
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setLoading(true);
+        try {
+            await login(email, password);
+        } catch (e) {
+            setError('Échec de la connexion. Vérifiez vos identifiants.');
+            setLoading(false);
+        }
     };
 
     const navigate = useNavigate();
@@ -55,4 +107,4 @@ export default function Login() {
             </div>
         </div>
     );
-}
+} */
